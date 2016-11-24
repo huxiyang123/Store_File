@@ -1,0 +1,35 @@
+
+
+主要是这个判断，其他与正常做法相同，注意：给list里面多添加两个iv，将最后一添加到第一个，将第一个添加到最后一个，中间都行
+
+
+vp.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                if (positionOffset == 0) {
+                    if (position == 0) {
+                        vp.setCurrentItem(listIv.size() - 2, false);
+                    } else if (position == listIv.size() - 1) {
+                        vp.setCurrentItem(1, false);
+                    }
+
+                }
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+                if (position > 0 && position < listIv.size() - 1) {
+
+                    linear.getChildAt(position - 1).setBackgroundColor(Color.WHITE);
+                    linear.getChildAt(num).setBackgroundColor(Color.parseColor("#00000000"));
+                    num = position - 1;
+
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });

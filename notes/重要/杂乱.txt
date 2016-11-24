@@ -1,0 +1,32 @@
+
+RecyclerView轮播地址
+
+http://blog.csdn.net/lmj623565791/article/details/38173061
+
+
+轮播时候的linear条动态添加
+
+xml中的linearLayout里面什么都不要，直接在代码中合适的位置添加以下代码
+
+
+for (int i = 0; i < listUrl.size(); i++) {
+                        View viewLine = new View(context);
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(20,2);
+                        params.setMargins(10,0,0,0);
+                        viewLine.setLayoutParams(params);
+                        linear.addView(viewLine);
+                    }
+
+
+
+新特效
+
+
+http://blog.csdn.net/zoudifei/article/details/49847541
+
+混淆
+
+http://my.oschina.net/aibenben/blog/371889
+
+
+http://blog.csdn.net/guolin_blog 博客

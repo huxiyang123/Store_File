@@ -1,0 +1,104 @@
+package demo2;
+//内部类
+public class Computer {
+	
+	class KeyBoard implements Production1 {
+
+		public KeyBoard() {
+			strat();
+			end();
+		}
+
+		private String name = "键盘";
+
+		@Override
+		public void strat() {
+			System.out.println(this.name + "生产中。。。");
+		}
+
+		@Override
+		public void end() {
+			System.out.println(this.name + "生产结束。。。");
+		}
+
+	}
+
+	class Mouse implements Production1 {
+		public Mouse() {
+			strat();
+			end();
+		}
+
+		private String name = "鼠标";
+
+		@Override
+		public void strat() {
+			System.out.println(this.name + "生产中。。。");
+		}
+
+		@Override
+		public void end() {
+			System.out.println(this.name + "生产结束。。。");
+		}
+
+	}
+
+	class Box implements Production1 {
+		public Box() {
+			strat();
+			end();
+		}
+
+		private String name = "机箱";
+
+		@Override
+		public void strat() {
+			System.out.println(this.name + "生产中。。。");
+		}
+
+		@Override
+		public void end() {
+			System.out.println(this.name + "生产结束。。。");
+		}
+
+	}
+
+	public static Production1 process(String type) {
+		//创建Computer的对象
+		Computer com = new Computer();
+		
+		Production1 pro = null;
+		//简单工厂模式
+//		type.equals("KeyBoard")    比较两个对象是否相等
+		if (type.equals("KeyBoard")) {
+
+			pro = com.new KeyBoard();
+			return pro;
+		} else if (type.equals("Mouse")) {
+			pro = com.new Mouse();
+			return pro;
+		} else if (type.equals("Box")) {
+			pro = com.new Box();
+			return pro;
+		} else {
+			return pro;
+		}
+	}
+//执行类
+	public static void main(String[] args) {
+		//调用工厂模式方法
+		Computer.process("KeyBoard");
+		Computer.process("Mouse");
+		Computer.process("Box");
+      System.out.println("电脑组装全部完成。。。");
+	}
+}
+
+Production接口
+
+package demo2;
+
+public interface Production1 {
+	void strat();
+	void end();
+}

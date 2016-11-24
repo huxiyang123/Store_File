@@ -1,0 +1,39 @@
+﻿http://blog.csdn.net/i_lovefish/article/details/17337267
+imageloader
+
+lru缓存
+http://blog.chinaunix.net/uid-26930580-id-4138306.html
+
+一级和sd卡缓存
+http://blog.csdn.net/xiaanming/article/details/9825113
+
+
+ if (image != null) {
+        holder_a.iv_img.setImageBitmap(image);
+    } else {
+
+            x.image().bind(holder_a.iv_img, bean.getImg(), new Callback.CommonCallback<Drawable>() {
+
+                @Override
+                public void onSuccess(Drawable result) {
+                    BitmapDrawable bitmapDrawable = (BitmapDrawable) result;
+                    Bitmap bitmap = bitmapDrawable.getBitmap();
+                    FileUtils.saveImage(bean.getImg(), bitmap);
+                }
+
+                @Override
+                public void onError(Throwable ex, boolean isOnCallback) {
+
+                }
+
+                @Override
+                public void onCancelled(CancelledException cex) {
+
+                }
+
+                @Override
+                public void onFinished() {
+
+                }
+            });
+        }

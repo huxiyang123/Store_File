@@ -1,0 +1,55 @@
+9ad0f8a1df4989e34e975c0ba32ad9b9
+
+http://blog.csdn.net/changemyself/article/details/10020201
+
+http://app.vmoiver.com/48706?qingapp=app_new&debug=1
+
+if (action == JPushInterface.ACTION_NOTIFICATION_OPENED) {
+    //启动指定的Activity显示通知中的内容
+
+    Bundle bundle = intent.getExtras();
+    String msg = bundle.getString(JPushInterface.EXTRA_ALERT); //通知内容
+
+    //String msg= intent.getStringExtra(JPushInterface.EXTRA_ALERT);
+
+    String extras = bundle.getString(JPushInterface.EXTRA_EXTRA); //扩展字段，json字符串
+    Log.i("disen", "extras-json: " + extras);
+
+    String imageURL = null;
+    if (extras != null) {
+        try {
+
+            JSONObject jsonObject = new JSONObject(extras);
+
+            //必须参考服务端api或门户网站上的设置的扩展字段名
+            imageURL = jsonObject.getString("imageURL");
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+x.http().get(params, new Callback.ProgressCallback<File>() 
+
+
+
+public static Bitmap getRoundedCornerBitmap(Bitmap bitmap){
+    Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+    Canvas canvas = new Canvas(output);
+    int color = 0xff424242;
+    Paint paint = new Paint();
+    Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+    RectF rectF = new RectF(rect);
+    float roundPx = 720;
+    paint.setAntiAlias(true);
+    canvas.drawARGB(0, 0, 0, 0);
+    paint.setColor(color);
+    canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+
+    paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+    canvas.drawBitmap(bitmap, rect, rect,paint);
+    return output;
+}
+

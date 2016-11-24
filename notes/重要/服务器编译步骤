@@ -1,0 +1,175 @@
+配置地址   http://i.thundersoft.com/wiki/index.php?title=%E7%94%A8%E6%88%B7%E8%AE%A8%E8%AE%BA:Wangying0803#IT-.E6.96.B0.E4.BA.BA.E7.8E.AF.E5.A2.83-.E5.AE.89.E8.A3.85jdk.E7.9A.84.E6.96.B9.E6.B3.95
+
+刷机包地址：http://androidsw-cache-jpto.global.sonyericsson.net/
+token同步密码    http.s://vwp.cnbj.sonymobile.com/vpn/index.htm
+
+
+联网执行
+sudo route add -net 0.0.0.0 netmask 0.0.0.0 gw 192.168.121.1
+
+服务器：smb://192.168.122.229/daemonts/  用户名：Setting  密码：rom@1234
+
+scp -r yangzd0803@192.168.122.249:/home/yangzd0803/SOURCE/m-mr1-tone2/out/target/product/kagura/system/priv-app/SystemUI/  登录服务器
+
+当编译过一次后直接在qiaolong0119@scm-R530:~/m-tone/frameworks/base/packages/SettingsProvider$加mm
+
+服务器编译完成
+Using certificate file vendor/semc/build/core/semcsdk/security/cert_data.dat
+Signing file "out/target/product/dora/obj/APPS/SettingsProviderTest_intermediates/package.apk.unsigned"
+Install: out/target/product/dora/data/app/SettingsProviderTest/SettingsProviderTest.apk
+make: Leaving directory `/home/qiaolong0119/m-tone'
+qiaolong0119@scm-R530:~/m-tone/frameworks/base/packages/SettingsProvider$ 
+
+Email was triggered for: Success
+
+
+另打开一个终端执行
+huxiyang@huxiyang-OptiPlex-3020:~/apk$ 
+huxiyang@huxiyang-OptiPlex-3020:~/apk$ adb root
+restarting adbd as root
+huxiyang@huxiyang-OptiPlex-3020:~/apk$ adb remount
+remount succeeded
+huxiyang@huxiyang-OptiPlex-3020:~/apk$ 
+huxiyang@huxiyang-OptiPlex-3020:~/apk$ ls
+SettingsProvider.apk
+huxiyang@huxiyang-OptiPlex-3020:~/apk$ adb push SettingsProvider.apk  /system/priv-app/SettingsProvider/
+1960 KB/s (161993 bytes in 0.080s)
+huxiyang@huxiyang-OptiPlex-3020:~/apk$ adb reboot
+huxiyang@huxiyang-OptiPlex-3020:~/apk$ 
+Could not write metadata for '/BluetoothRequestPermissionTest'.
+/home/huxiyang/workspace/.metadata/.plugins/org.eclipse.core.resources/.projects/BluetoothRequestPermissionTest/.markers.snap (没有那个文件或目录)
+
+
+
+编译后查看.apk文件
+smb://192.168.122.249/qiaolong0119/m-tone/out/target/product/dora/system/priv-app/SettingsProvider
+
+导入安卓工程时无法编译执行：rm -rf frameworks/base/packages/SystemUI/bin（一般导入java工程就不会出错）
+
+push到手机（切换到对应分支目录）
+
+1  . build/envsetup.sh或者source build/envsetup.sh
+2   lunch
+3   选择手机型号
+4.  make SettingsProvider -j4（编译SettingsProvider文件）
+5.  adb root
+6.  adb remount
+7.  生成的apk目录    out/target/produc/owa/auth/logoff.aspx?Cmd=logofft/dora/system/priv-app/SettingsProvider/SettingsProvider.apk 
+8.  adb push SettingsProvider.apk  /system/priv-app/SettingsProvider/    （开始push）
+9.  adb reboot
+10.  adb logcat -s logtest      （查看logcat）（adb logcat *:E）e以上级别的log
+
+
+push到手机（服务器编译）
+先把apk考到apk目录
+
+huxiyang@huxiyang-OptiPlex-3020:~$ cd apk/
+huxiyang@huxiyang-OptiPlex-3020:~/apk$ ls
+SettingsProvider.apk
+huxiyang@huxiyang-OptiPlex-3020:~/apk$ adb push SettingsProvider.apk  /system/priv-app/SettingsProvider/
+
+
+
+source ~/.bashrc 使自己配置的环境变量生效
+adb reboot（重启手机）
+gedit ~/.bashrc  （打开文件）
+
+
+从服务器拉取代码
+1.初始化（挂在）   repo init -u git://review.sonyericsson.net/platform/manifest -b l-mr1-kitakami2  相当与 repo init 加分支名（l-mr1-kitakami2）
+2.开始拉取   repo sync -j4  （repo sync -c platform/frameworks/base -j4    拉取base代码）
+
+
+huxiyang@huxiyang-OptiPlex-3020:~/apk$ 
+huxiyang@huxiyang-OptiPlex-3020:~/apk$ adb devices
+
+huxiyang@huxiyang-OptiPlex-3020:~$ adb logcat -s logtest      	查看logcat
+
+huxiyang@huxiyang-OptiPlex-3020:~/temp$ 
+huxiyang@huxiyang-OptiPlex-3020:~/temp$ adb logcat -v time > log.txt	将打印出的log保存在/temp/log.txt
+
+huxiyang@huxiyang-OptiPlex-3020:~$ adb pull /sdcard/Pictures/Screenshots/ ~/temp/  从手机拉取图片到temp目录
+
+
+
+退出  esc :q!    :wq
+
+ps -aux | grep 加名字  查看对应名字的进程号     杀死进程  kill -9 加进程号
+
+
+终端下载命令    wget -c 加链接
+
+
+查看数据数据
+adb shell
+settings get system screen_off_timeout
+查看数据库 
+adb shell  
+cd data/system/users/0
+ls
+cat 加文件
+
+
+ 编译方式 
+ （1）  . build/envsetup.sh或者source build/envsetup.sh
+  （2）   lunch
+   （3）  选择
+   （4）  执行以下步骤
+ 1、全部编译 make fullbuild -j4 生成刷机包 详细请参考https://wiki.sonyericsson.net/androiki/PLD_CM/Kitakami#Building_SoMC_Official_Branches
+ 2、全部编译 make build -j4 不会生成刷机包
+ 3、模块编译 make Settings/SystemUI/SettingsProvider/SOMCSetupWizard 或者进入对应目录 执行 mm -B
+ 4、对于SettingsLib模块，执行make Settings 或者(进入到Settings目录)mm -B 就可以直接编译进去
+ 5、semc-build 索尼自己的自动编译工具。用来编译Android工程。一般编译vendor下面的模块 详细请参考http://i.thundersoft.com/wiki/index.php?title=%E7%94%A8%E6%88%B7%E8%AE%A8%E8%AE%BA:Wangying0803#semc-build
+或者https://wiki.sonyericsson.net/androiki/Semc-build
+注：编译franmework，看 .mk的LOCAL_MODULE名字
+
+
+watch -d -n 10 adb shell settings list {system, secure, global}-----(直接在根目录下运行)
+每隔10秒钟查看SettingsProvider中{system, secure, global}的变化，{system, secure, global}三选一，这样就可以不查看代码，定位某个配置项被更改
+
+
+一些提升效率的命令缩写------在.brashrc中添加
+alias getui='adb shell dumpsys activity top | less'
+alias pset='adb shell rm -rf /system/priv-app/Settings/* && adb push `echo $ANDROID_PRODUCT_OUT`/system/priv-app/Settings/Settings.apk /system/priv-app/Settings/ && adb shell ls -l /system/priv-app/Settings/'
+alias psys='adb shell rm -rf /system/priv-app/SystemUI/* && adb push `echo $ANDROID_PRODUCT_OUT`/system/priv-app/SystemUI/SystemUI.apk /system/priv-app/SystemUI/ && adb shell ls -l /system/priv-app/SystemUI/'
+alias r='adb reboot'
+alias ra='sudo route add -net 0.0.0.0 netmask 0.0.0.0 gw 192.168.121.1'
+alias rdr='adb root && adb disable-verity && adb reboot;'
+alias rr='adb root && adb remount;'
+alias ss='adb shell stop && adb shell start;'
+
+froward步骤：report写好  
+	1.贴到Jira上（修改格式）
+	2.在DMS上按照ppt操作，（注意：Discipline:选SW Android Application Framework---Component：选Tokyo） 
+	3.note贴上后，在ls
+最后加  // Settings  
+	4.刷新检查状态Annual leave on Jun.01（Submitted）
+	5.回到Jira（Labels：添加ts-forward）
+	6.comment一个标记	MEMO W21.5
+				DMS has transferred to framework team.
+	7.Status  resolued 改为Won‘t Do
+
+adb logcat | grep Displayed.*+Activity
+例如：获取Settings APK第一次启动时，界面的渲染时间，可以使用adb logcat | grep Displayed.*Settings可以获知从点击启动ICON到显示内容花费的时间为448ms。
+02-22 22:25:47.612  1669  1739 I ActivityManager: Displayed com.android.settings/.Settings: +448ms 
+
+打开终端开启root账户 :sudo passwd -u root
+
+huxiyang@huxiyang-OptiPlex-3020:~$ adb shell
+root@F5122:/ # pm list package -f | grep wifi    查找
+
+apt-get install xxx 安装xxx  。如果带有参数，那么-d 表示仅下载 ，-f 表示强制安装  
+apt-get remove xxx 卸载xxx  
+apt-get update 更新软件信息数据库  
+apt-get upgrade 进行系统升级  
+apt-cache search 搜索软件包  
+
+adb install com.qihoo.appstore_300050113.apk  给手机安装com.qihoo.appstore_300050113.apk
+
+
+Sony邮箱号：corpusers\xp019090
+
+请大家记得用SIM卡的时候 如果不用流量把流量关了   同时  先 Go to home screen->Tap Developer app->select DebugMenu->tap CrashMonitor->Crash Level->select Crash Level:-2 再插SIM卡喔
+
+repo init -u git://review.sonyericsson.net/platform/manifest --repo-url=git://review.sonyericsson.net/tools/repo -b
+
