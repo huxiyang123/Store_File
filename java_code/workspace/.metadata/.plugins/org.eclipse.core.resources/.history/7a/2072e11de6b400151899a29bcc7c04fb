@@ -1,0 +1,61 @@
+package study;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
+import java.util.Scanner;
+
+
+/*
+ * URL:Universal Resource Locator统一资源定位符。
+ *   格式：协议：//hostname:port/文件夹/资源名称。
+ *   例如:http://www.sina.com:8088/news/newslist.html
+ *  步骤：
+ *  	1 创建URL链接吗，在狗仔方法参数中输入地址
+ */
+public class TestURL {
+
+	public static void main(String[] args) throws MalformedURLException {
+		//get请求
+		
+		BufferedReader br = null;
+		try {
+			System.out.println("please input name:");
+			Scanner s = new Scanner(System.in);
+			String name = s.next();
+			URL url = new URL("http://10.12.152.65:8080/first/Login?user="+name+"&&pass=123456");
+			HttpURLConnection huc = (HttpURLConnection)url.openConnection();
+			huc.setRequestMethod("GET");
+			int code = huc.getResponseCode();
+			if(code==HttpURLConnection.HTTP_OK){
+				br = new BufferedReader(new InputStreamReader(huc.getInputStream()));
+				String temp = null;
+				while((temp=br.readLine())!=null){
+					System.out.println(temp);
+				}
+			}
+		} catch (ProtocolException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		}
+		finally{
+			try {
+				if(br!=null)
+					br.close();
+			} catch (IOException e) {
+				// TODO 自动生成的 catch 块
+				e.printStackTrace();
+			}
+			
+				
+		}
+	}
+
+}

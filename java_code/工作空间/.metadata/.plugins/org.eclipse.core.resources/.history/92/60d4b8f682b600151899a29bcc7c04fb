@@ -1,0 +1,6 @@
+package practiceJSON;
+
+public class Grade {
+	private String cname;
+	private int croom;
+}

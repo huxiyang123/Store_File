@@ -1,0 +1,30 @@
+package practiceJSON;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import StudyJSON.Student;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
+
+public class TestJSONStudent {
+
+	public static void main(String[] args) {
+		String jsonc = "{cName:'Android1503',cRoom:'01',studetns:[{sid:1,sname:'zhangsan'},{sid:2,sname:'lisi'}]}";
+		
+		Grade grade = new Grade();
+		JSONObject jo = JSONObject.fromObject(jsonc);
+		//使用toBean()方法把JSONObject对象和Java类的class对象关联
+		Grade g = (Grade) JSONObject.toBean(jo, Grade.class);
+		List<Student> list = new ArrayList<>();
+		JSONArray array = JSONArray.fromObject(jsonc);
+//		for(int i=0;i<array.size();i++){
+//			JSONObject obj = (JSONObject)array.get(i);
+//			list.add((Student)JSONObject.toBean(obj,Student.class));
+//		}
+		System.out.println(g);
+		
+	}
+
+}

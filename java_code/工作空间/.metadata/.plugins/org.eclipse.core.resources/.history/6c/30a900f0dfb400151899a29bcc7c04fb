@@ -1,0 +1,20 @@
+package study;
+
+import java.net.URL;
+
+import javax.net.ssl.HttpsURLConnection;
+
+/*
+ * URL:Universal Resource Locator统一资源定位符。
+ *   格式：协议：//hostname:port/文件夹/资源名称。
+ *   例如:http://www.sina.com:8088/news/newslist.html
+ */
+public class TestURL {
+
+	public static void main(String[] args) {
+		URL url = new URL("");
+		HttpsURLConnection huc = (HttpsURLConnection) url.openConnection();
+
+	}
+
+}

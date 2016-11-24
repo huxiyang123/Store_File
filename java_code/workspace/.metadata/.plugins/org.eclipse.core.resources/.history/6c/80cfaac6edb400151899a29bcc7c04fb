@@ -1,0 +1,14 @@
+package study;
+
+import java.net.URL;
+
+/*
+ * 
+ */
+public class TestPost {
+
+	public static void main(String[] args) {
+		URL url = new URL("http://localhost:8080/2016-first-homework/MyLoginServlet");
+	}
+
+}

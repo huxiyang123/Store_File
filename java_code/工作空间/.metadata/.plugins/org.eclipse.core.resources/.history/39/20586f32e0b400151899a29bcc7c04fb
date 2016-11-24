@@ -1,0 +1,27 @@
+package study;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import javax.net.ssl.HttpsURLConnection;
+/*
+ * URL:Universal Resource Locator统一资源定位符。
+ *   格式：协议：//hostname:port/文件夹/资源名称。
+ *   例如:http://www.sina.com:8088/news/newslist.html
+ */
+public class TestURL {
+
+	public static void main(String[] args) throws MalformedURLException {
+		//get请求
+		URL url = new URL("http://localhost:8080/first/MyServlet");
+		HttpsURLConnection huc = (HttpsURLConnection)url.openConnection();
+		huc.setRequestMethod("GET");
+		int code = huc.getResponseCode();
+		if(code==HttpURLConnetion.HTTP_OK){
+			BufferedReader br = new BufferedReader(new InputStreamReader(huc.getInputStream()));
+		}
+	}
+
+}

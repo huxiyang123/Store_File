@@ -1,0 +1,28 @@
+package StudyXML;
+/*元素的命名规则：
+ * 	1 严格区分大小写
+ * 	2 不能以数字和“_”开头
+ * 	3 不能使用xml(或XML)关键字开始
+ * 	4 不能包含空格
+ * 	5 名称之间不能包含：号
+ * 实体引用：
+ * 	>:&lt
+ */
+
+public class TestXMLSax {
+
+	public static void main(String[] args) {
+		// TODO 自动生成的方法存根
+
+	}
+
+}
+
+
+
+
+
+
+
+
+

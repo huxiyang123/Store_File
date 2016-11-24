@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<students>
+  <student>
+    <sid>1</sid>
+    <sname>zhangsan</sname>
+    <sex>male</sex>
+    <courses>
+      <course>
+        <cid>1</cid>
+        <cname>语文</cname>
+      </courses>
+      <course>
+        <cid>2</cid>
+        <cname>数学</cname>
+      </course>
+    </courses>
+ </student>
+  <student>
+    <sid>2</sid>
+    <sname>lisi</sname>
+    <sex>female</sex>
+    <courses>
+      <course>
+        <cid>3</cid>
+        <cname>数学</cname>
+      </course>
+      <course>
+        <cid>4</cid>
+        <cname>语文</cname>
+      </course>
+    </courses>
+ </student>
+</students> 

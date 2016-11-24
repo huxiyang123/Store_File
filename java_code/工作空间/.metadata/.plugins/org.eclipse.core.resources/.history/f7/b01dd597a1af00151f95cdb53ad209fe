@@ -1,0 +1,20 @@
+package study;
+
+import java.net.Socket;
+
+public class MyThread extends Thread {
+	private Socket socket;
+	private BufferedReader br = null;
+	
+	public MyThread(Socket socket) {
+	
+		this.socket = socket;
+	}
+	@Override
+	public void run() {
+		while(true){
+			
+		}
+		
+	}
+}

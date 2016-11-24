@@ -1,0 +1,960 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0041)http://chenhua-1984.iteye.com/blog/565629 -->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" dir="ltr"><style type="text/css" id="33980984000"></style><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script src="./java 装饰器模式 - 陈华的博客 - ITeye技术网站_files/hm.js"></script>
+    
+    <title>java 装饰器模式 - 陈华的博客 - ITeye技术网站</title>
+    <meta name="description" content="   记得以前听一个高手说java.io包采用了了装饰器模式，当时不是很明白什么事装饰器模式，现在，网上看了一下说明和帮助的例子，他们的例子是这样的。     定义  Decorator装饰器，顾名思义，就是动态地给一个对象添加一些额外的职责，就好比为房子进行装修一样。因此，装饰器模式具有如下的特征：      它必须具有一个装饰的对象。      它必须拥有与被装饰对象相同的接口。      它可 ...">
+    <meta name="keywords" content="Java java 装饰器模式">
+    <link rel="shortcut icon" href="http://chenhua-1984.iteye.com/images/favicon.ico" type="image/x-icon">
+    <link rel="search" type="application/opensearchdescription+xml" href="http://chenhua-1984.iteye.com/open_search.xml" title="ITeye">
+    <link href="http://chenhua-1984.iteye.com/rss" rel="alternate" title="陈华的博客" type="application/rss+xml">
+    <link href="./java 装饰器模式 - 陈华的博客 - ITeye技术网站_files/blog.css" media="screen" rel="stylesheet" type="text/css">
+<link href="./java 装饰器模式 - 陈华的博客 - ITeye技术网站_files/purple.css" media="screen" rel="stylesheet" type="text/css">
+    <script type="text/javascript" async="" src="./java 装饰器模式 - 陈华的博客 - ITeye技术网站_files/ga.js"></script><script type="text/javascript" async="" src="./java 装饰器模式 - 陈华的博客 - ITeye技术网站_files/ga.js"></script><script src="./java 装饰器模式 - 陈华的博客 - ITeye技术网站_files/application.js" type="text/javascript"></script>
+    <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-535605-1']);
+  _gaq.push(['_setDomainName', 'iteye.com']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+
+      <link href="./java 装饰器模式 - 陈华的博客 - ITeye技术网站_files/SyntaxHighlighter.css" media="screen" rel="stylesheet" type="text/css">
+  <script src="./java 装饰器模式 - 陈华的博客 - ITeye技术网站_files/shCoreCommon.js" type="text/javascript"></script>
+<script src="./java 装饰器模式 - 陈华的博客 - ITeye技术网站_files/hotkey.js" type="text/javascript"></script>
+  <script src="./java 装饰器模式 - 陈华的博客 - ITeye技术网站_files/code_favorites.js" type="text/javascript"></script>
+<script src="./java 装饰器模式 - 陈华的博客 - ITeye技术网站_files/weiboshare.js" type="text/javascript"></script>
+  <style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style></head>
+  <body style="">
+    <div id="header">
+      <div id="blog_site_nav">
+  <a href="http://www.iteye.com/" class="homepage">首页</a>
+  <a href="http://www.iteye.com/news">资讯</a>
+  <a href="http://www.iteye.com/magazines">精华</a>
+  <a href="http://www.iteye.com/forums">论坛</a>
+  <a href="http://www.iteye.com/ask">问答</a>
+  <a href="http://www.iteye.com/blogs">博客</a>
+  <a href="http://www.iteye.com/blogs/subjects">专栏</a>
+  <a href="http://www.iteye.com/groups">群组</a>
+  <a href="http://chenhua-1984.iteye.com/blog/565629#" onclick="return false;" id="msna"><u>更多</u> <small>▼</small></a>
+  <div class="quick_menu" style="display:none;">
+    <a target="_blank" href="http://job.iteye.com/iteye">招聘</a>
+    <a href="http://www.iteye.com/search">搜索</a>
+  </div>
+</div>
+
+      <div id="user_nav">
+      <a href="http://chenhua-1984.iteye.com/login" class="welcome" title="登录">您还未登录 !</a>
+    <a href="http://chenhua-1984.iteye.com/login">登录</a>
+    <a href="http://chenhua-1984.iteye.com/signup" class="nobg">注册</a>
+  </div>
+
+    </div>
+
+    <div id="page">
+      <div id="branding" class="clearfix">
+        <div id="blog_name">
+          <h1><a href="http://chenhua-1984.iteye.com/">陈华的博客</a></h1>
+        </div>
+        <div id="fd"></div>
+        <div id="blog_navbar">
+          <ul>
+            <li class="blog_navbar_for"><a href="http://chenhua-1984.iteye.com/"><strong>博客</strong></a></li>
+            <li><a href="http://chenhua-1984.iteye.com/weibo">微博</a></li>
+            <li><a href="http://chenhua-1984.iteye.com/album">相册</a></li>
+            <li><a href="http://chenhua-1984.iteye.com/link">收藏</a></li>
+            <li><a href="http://chenhua-1984.iteye.com/blog/guest_book">留言</a></li>
+            <li><a href="http://chenhua-1984.iteye.com/blog/profile">关于我</a></li>
+          </ul>
+    
+          <div class="search">
+            <form action="http://chenhua-1984.iteye.com/blog/search" method="get">
+              <input class="search_text" id="query" name="query" style="margin-left: 10px;width: 110px;" type="text" value="">
+              <input class="submit_search" type="submit" value="">
+            </form>
+          </div> 
+          <div id="fd"></div>         
+        </div>
+      </div>
+      
+      <div id="content" class="clearfix">
+        <div id="main">
+          
+
+
+
+          
+
+
+<div class="h-entry" style="display:none">
+  <a href="http://chenhua-1984.iteye.com/" class="p-author" target="_blank">chenhua_1984</a>
+</div>
+
+
+<div class="blog_main">
+  <div class="blog_title">
+    <h3>
+      <a href="./java 装饰器模式 - 陈华的博客 - ITeye技术网站_files/java 装饰器模式 - 陈华的博客 - ITeye技术网站.htm">java 装饰器模式</a>
+      <em class="actions">      </em>
+    </h3>
+    <ul class="blog_categories"><strong>博客分类：</strong> <li><a href="http://chenhua-1984.iteye.com/category/61937">设计模式</a></li> </ul>
+        <div class="news_tag"><a href="http://www.iteye.com/blogs/tag/Java">Java</a>&nbsp;</div>
+  </div>
+
+  <div id="blog_content" class="blog_content">
+    <p>&nbsp;&nbsp; 记得以前听一个高手说java.io包采用了了装饰器模式，当时不是很明白什么事装饰器模式，现在，网上看了一下说明和帮助的例子，他们的例子是这样的。</p>
+<p>&nbsp;&nbsp; 定义</p>
+<p style="margin-bottom: 5pt; margin-top: 5pt;" class="p0"><span style="font-size: 10.5pt; font-family: &#39;Times New Roman&#39;;">Decorator<span style="">装饰器，顾名思义，就是动态地给一个对象添加一些额外的职责，就好比为房子进行装修一样。因此，装饰器模式具有如下的特征：</span>
+</span>
+</p>
+<p style="margin-bottom: 5pt; margin-top: 5pt;" class="p0"><span style="font-size: 10.5pt; font-family: &#39;Times New Roman&#39;;">它必须具有一个装饰的对象。</span>
+<span style="font-size: 10.5pt; font-family: &#39;Times New Roman&#39;;"></span>
+</p>
+<p style="margin-bottom: 5pt; margin-top: 5pt;" class="p0"><span style="font-size: 10.5pt; font-family: &#39;Times New Roman&#39;;">它必须拥有与被装饰对象相同的接口。</span>
+<span style="font-size: 10.5pt; font-family: &#39;Times New Roman&#39;;"></span>
+</p>
+<p style="margin-bottom: 5pt; margin-top: 5pt;" class="p0"><span style="font-size: 10.5pt; font-family: &#39;Times New Roman&#39;;">它可以给被装饰对象添加额外的功能。</span>
+<span style="font-size: 10.5pt; font-family: &#39;Times New Roman&#39;;"></span>
+</p>
+<p style="margin-bottom: 5pt; margin-top: 5pt;" class="p0"><span style="font-size: 10.5pt; font-family: &#39;Times New Roman&#39;;">用一句话总结就是：保持接口，增强性能。</span>
+<span style="font-size: 10.5pt; font-family: &#39;Times New Roman&#39;;"></span>
+</p>
+<p style="margin-bottom: 5pt; margin-top: 5pt;" class="p0"><span style="font-size: 10.5pt; font-family: &#39;Times New Roman&#39;;">装饰器通过包装一个装饰对象来扩展其功能，而又不改变其接口，这实际上是基于对象的适配器模式的一种变种。它与对象的适配器模式的异同点如下。</span>
+<span style="font-size: 10.5pt; font-family: &#39;Times New Roman&#39;;"></span>
+</p>
+<p style="margin-bottom: 5pt; margin-top: 5pt;" class="p0"><span style="font-size: 10.5pt; font-family: &#39;Times New Roman&#39;;">相同点：都拥有一个目标对象。</span>
+<span style="font-size: 10.5pt; font-family: &#39;Times New Roman&#39;;"></span>
+</p>
+<p style="margin-bottom: 5pt; margin-top: 5pt;" class="p0"><span style="font-size: 10.5pt; font-family: &#39;Times New Roman&#39;;">不同点：适配器模式需要实现另外一个接口，而装饰器模式必须实现该对象的接口。</span>
+</p>
+<p style="margin-bottom: 5pt; margin-top: 5pt;" class="p0">&nbsp;</p>
+<p style="margin-bottom: 5pt; margin-top: 5pt;" class="p0"><span style="font-size: 10.5pt; font-family: &#39;Times New Roman&#39;;">Sourcable<span style="">类的源代码如程序</span>
+<span style="font-family: Times New Roman;">12-22</span>
+<span style="">所示，其定义了一个接口函数</span>
+<span style="font-family: Times New Roman;">operation()</span>
+<span style="">。</span>
+</span>
+<span style="font-size: 10.5pt; font-family: &#39;Times New Roman&#39;;"></span>
+</p>
+<p style="margin-bottom: 5pt; margin-top: 5pt;" class="p0"><span style="font-size: 10.5pt; font-family: &#39;Times New Roman&#39;;">程序<span style="font-family: Times New Roman;">12-22&nbsp;&nbsp;</span>
+<span style="">源接口</span>
+<span style="font-family: Times New Roman;">Sourcable.java</span>
+</span>
+</p>
+<div class="dp-highlighter" id=""><div class="bar"><div class="tools">Java代码 <embed wmode="transparent" src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=package%20pattern.decorator%3B%0A%0Apublic%20interface%20Sourcable%20%7B%0A%09public%20void%20operation()%3B%0A%0A%7D%0A" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer">&nbsp;<a href="javascript:void()" title="收藏这段代码" onclick="code_favorites_do_favorite(this);return false;"><img class="star" src="./java 装饰器模式 - 陈华的博客 - ITeye技术网站_files/icon_star.png" alt="收藏代码"><img class="spinner" src="./java 装饰器模式 - 陈华的博客 - ITeye技术网站_files/spinner.gif" style="display:none"></a></div></div><ol start="1" class="dp-j"><li><span><span class="keyword">package</span><span>&nbsp;pattern.decorator;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;</span></li><li><span><span class="keyword">public</span><span>&nbsp;</span><span class="keyword">interface</span><span>&nbsp;Sourcable&nbsp;{&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span><span>&nbsp;</span><span class="keyword">void</span><span>&nbsp;operation();&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;</span></li><li><span>}&nbsp;&nbsp;</span></li></ol></div><pre name="code" class="java" codeable_id="565629" codeable_type="Blog" source_url="http://chenhua-1984.iteye.com/blog/565629" pre_index="0" title="java 装饰器模式" style="display: none;">package pattern.decorator;
+
+public interface Sourcable {
+	public void operation();
+
+}
+</pre>
+&nbsp;
+<p style="margin-bottom: 5pt; margin-top: 5pt;" class="p0"><span style="font-size: 10.5pt; font-family: &#39;Times New Roman&#39;;">（<span style="font-family: Times New Roman;">2</span>
+<span style="">）</span>
+<span style="font-family: Times New Roman;">Source.java</span>
+<span style="">是</span>
+<span style="font-family: Times New Roman;">Sourcable.java</span>
+<span style="">的一个实现，其函数</span>
+<span style="font-family: Times New Roman;">operation()</span>
+<span style="">负责往控制台输出一个字符串：原始类的方法。其源代码如程序</span>
+<span style="font-family: Times New Roman;">12-23</span>
+<span style="">所示。</span>
+</span>
+<span style="font-size: 10.5pt; font-family: &#39;Times New Roman&#39;;"></span>
+</p>
+<p style="margin-bottom: 5pt; margin-top: 5pt;" class="p0"><span style="font-size: 10.5pt; font-family: &#39;Times New Roman&#39;;">程序<span style="font-family: Times New Roman;">12-23&nbsp;&nbsp;</span>
+<span style="">源类</span>
+<span style="font-family: Times New Roman;">Source.java</span>
+</span>
+<span style="font-size: 10.5pt; font-family: &#39;Times New Roman&#39;;"></span>
+</p>
+<div class="dp-highlighter" id=""><div class="bar"><div class="tools">Java代码 <embed wmode="transparent" src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=package%20pattern.decorator%3B%0A%0Apublic%20class%20Source%20implements%20Sourcable%20%7B%0A%0A%09public%20void%20operation()%20%7B%0A%09%09System.out.println(%22%E5%8E%9F%E5%A7%8B%E7%B1%BB%E7%9A%84%E6%96%B9%E6%B3%95%22)%3B%0A%09%7D%0A%0A%7D%0A" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer">&nbsp;<a href="javascript:void()" title="收藏这段代码" onclick="code_favorites_do_favorite(this);return false;"><img class="star" src="./java 装饰器模式 - 陈华的博客 - ITeye技术网站_files/icon_star.png" alt="收藏代码"><img class="spinner" src="./java 装饰器模式 - 陈华的博客 - ITeye技术网站_files/spinner.gif" style="display:none"></a></div></div><ol start="1" class="dp-j"><li><span><span class="keyword">package</span><span>&nbsp;pattern.decorator;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;</span></li><li><span><span class="keyword">public</span><span>&nbsp;</span><span class="keyword">class</span><span>&nbsp;Source&nbsp;</span><span class="keyword">implements</span><span>&nbsp;Sourcable&nbsp;{&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span><span>&nbsp;</span><span class="keyword">void</span><span>&nbsp;operation()&nbsp;{&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"原始类的方法"</span><span>);&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;</span></li><li><span>}&nbsp;&nbsp;</span></li></ol></div><pre name="code" class="java" codeable_id="565629" codeable_type="Blog" source_url="http://chenhua-1984.iteye.com/blog/565629" pre_index="1" title="java 装饰器模式" style="display: none;">package pattern.decorator;
+
+public class Source implements Sourcable {
+
+	public void operation() {
+		System.out.println("原始类的方法");
+	}
+
+}
+</pre>
+&nbsp;
+<p style="margin-bottom: 5pt; margin-top: 5pt;" class="p0"><span style="font-size: 10.5pt; font-family: &#39;Times New Roman&#39;;">（<span style="font-family: Times New Roman;">3</span>
+<span style="">）装饰器类</span>
+<span style="font-family: Times New Roman;">Decorator1.java</span>
+<span style="">采用了典型的对象适配器模式，它首先拥有一个</span>
+<span style="font-family: Times New Roman;">Sourcable</span>
+<span style="">对象</span>
+<span style="font-family: Times New Roman;">source</span>
+<span style="">，该对象通过构造函&nbsp;数进行初始化。然后它实现了</span>
+<span style="font-family: Times New Roman;">Sourcable.java</span>
+<span style="">接口，以期保持与</span>
+<span style="font-family: Times New Roman;">source</span>
+<span style="">同样的接口，并在重写的</span>
+<span style="font-family: Times New Roman;">operation()</span>
+<span style="">函数中调用&nbsp;</span>
+<span style="font-family: Times New Roman;">source</span>
+<span style="">的</span>
+<span style="font-family: Times New Roman;">operation()</span>
+<span style="">函数，在调用前后可以实现自己的输出，这就是装饰器所扩展的功能。其源代码如程序</span>
+<span style="font-family: Times New Roman;">12-24</span>
+<span style="">所示。</span>
+</span>
+<span style="font-size: 10.5pt; font-family: &#39;Times New Roman&#39;;"></span>
+</p>
+<p style="margin-bottom: 5pt; margin-top: 5pt;" class="p0"><span style="font-size: 10.5pt; font-family: &#39;Times New Roman&#39;;">程序<span style="font-family: Times New Roman;">12-24&nbsp;&nbsp;</span>
+<span style="">装饰器类</span>
+<span style="font-family: Times New Roman;">Decorator1.java</span>
+</span>
+<span style="font-size: 10.5pt; font-family: &#39;Times New Roman&#39;;"></span>
+</p>
+<div class="dp-highlighter" id=""><div class="bar"><div class="tools">Java代码 <embed wmode="transparent" src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=package%20pattern.decorator%3B%0A%0Apublic%20class%20Decorator1%20implements%20Sourcable%20%7B%0A%0A%09private%20Sourcable%20sourcable%3B%0A%09public%20Decorator1(Sourcable%20sourcable)%7B%0A%09%09super()%3B%0A%09%09this.sourcable%3Dsourcable%3B%0A%09%7D%0A%09%0A%09public%20void%20operation()%20%7B%0A%09%09System.out.println(%22%E7%AC%AC%E4%B8%80%E4%B8%AA%E8%A3%85%E9%A5%B0%E5%99%A8%E5%89%8D%22)%3B%0A%09%09sourcable.operation()%3B%0A%09%09System.out.println(%22%E7%AC%AC%E4%B8%80%E4%B8%AA%E8%A3%85%E9%A5%B0%E5%99%A8%E5%90%8E%22)%3B%0A%0A%09%7D%0A%0A%7D%0A" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer">&nbsp;<a href="javascript:void()" title="收藏这段代码" onclick="code_favorites_do_favorite(this);return false;"><img class="star" src="./java 装饰器模式 - 陈华的博客 - ITeye技术网站_files/icon_star.png" alt="收藏代码"><img class="spinner" src="./java 装饰器模式 - 陈华的博客 - ITeye技术网站_files/spinner.gif" style="display:none"></a></div></div><ol start="1" class="dp-j"><li><span><span class="keyword">package</span><span>&nbsp;pattern.decorator;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;</span></li><li><span><span class="keyword">public</span><span>&nbsp;</span><span class="keyword">class</span><span>&nbsp;Decorator1&nbsp;</span><span class="keyword">implements</span><span>&nbsp;Sourcable&nbsp;{&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private</span><span>&nbsp;Sourcable&nbsp;sourcable;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span><span>&nbsp;Decorator1(Sourcable&nbsp;sourcable){&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">super</span><span>();&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span><span>.sourcable=sourcable;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span><span>&nbsp;</span><span class="keyword">void</span><span>&nbsp;operation()&nbsp;{&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"第一个装饰器前"</span><span>);&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sourcable.operation();&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"第一个装饰器后"</span><span>);&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;</span></li><li><span>}&nbsp;&nbsp;</span></li></ol></div><pre name="code" class="java" codeable_id="565629" codeable_type="Blog" source_url="http://chenhua-1984.iteye.com/blog/565629" pre_index="2" title="java 装饰器模式" style="display: none;">package pattern.decorator;
+
+public class Decorator1 implements Sourcable {
+
+	private Sourcable sourcable;
+	public Decorator1(Sourcable sourcable){
+		super();
+		this.sourcable=sourcable;
+	}
+	
+	public void operation() {
+		System.out.println("第一个装饰器前");
+		sourcable.operation();
+		System.out.println("第一个装饰器后");
+
+	}
+
+}
+</pre>
+&nbsp;
+<p style="margin-bottom: 5pt; margin-top: 5pt;" class="p0"><span style="font-size: 10.5pt; font-family: &#39;Times New Roman&#39;;">装饰器类<span style="font-family: Times New Roman;">Decorator2.java</span>
+<span style="">是另一个装饰器，不同的是它装饰的内容不一样，即输出了不同的字符串。其源代码如程序</span>
+<span style="font-family: Times New Roman;">12-25</span>
+<span style="">所示。</span>
+</span>
+<span style="font-size: 10.5pt; font-family: &#39;Times New Roman&#39;;"></span>
+</p>
+<p style="margin-bottom: 5pt; margin-top: 5pt;" class="p0"><span style="font-size: 10.5pt; font-family: &#39;Times New Roman&#39;;">程序<span style="font-family: Times New Roman;">12-25&nbsp;&nbsp;</span>
+<span style="">装饰器类</span>
+<span style="font-family: Times New Roman;">Decorator2.java</span>
+</span>
+<span style="font-size: 10.5pt; font-family: &#39;Times New Roman&#39;;"></span>
+</p>
+<div class="dp-highlighter" id=""><div class="bar"><div class="tools">Java代码 <embed wmode="transparent" src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=package%20pattern.decorator%3B%0A%0Apublic%20class%20Decorator2%20implements%20Sourcable%20%7B%0A%0A%09private%20Sourcable%20sourcable%3B%0A%09public%20Decorator2(Sourcable%20sourcable)%7B%0A%09%09super()%3B%0A%09%09this.sourcable%3Dsourcable%3B%0A%09%7D%0A%09public%20void%20operation()%20%7B%0A%09%09System.out.println(%22%E7%AC%AC%E4%BA%8C%E4%B8%AA%E8%A3%85%E9%A5%B0%E5%99%A8%E5%89%8D%22)%3B%0A%09%09sourcable.operation()%3B%0A%09%09System.out.println(%22%E7%AC%AC%E4%BA%8C%E4%B8%AA%E8%A3%85%E9%A5%B0%E5%99%A8%E5%90%8E%22)%3B%0A%0A%09%7D%0A%0A%7D%0A" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer">&nbsp;<a href="javascript:void()" title="收藏这段代码" onclick="code_favorites_do_favorite(this);return false;"><img class="star" src="./java 装饰器模式 - 陈华的博客 - ITeye技术网站_files/icon_star.png" alt="收藏代码"><img class="spinner" src="./java 装饰器模式 - 陈华的博客 - ITeye技术网站_files/spinner.gif" style="display:none"></a></div></div><ol start="1" class="dp-j"><li><span><span class="keyword">package</span><span>&nbsp;pattern.decorator;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;</span></li><li><span><span class="keyword">public</span><span>&nbsp;</span><span class="keyword">class</span><span>&nbsp;Decorator2&nbsp;</span><span class="keyword">implements</span><span>&nbsp;Sourcable&nbsp;{&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private</span><span>&nbsp;Sourcable&nbsp;sourcable;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span><span>&nbsp;Decorator2(Sourcable&nbsp;sourcable){&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">super</span><span>();&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span><span>.sourcable=sourcable;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span><span>&nbsp;</span><span class="keyword">void</span><span>&nbsp;operation()&nbsp;{&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"第二个装饰器前"</span><span>);&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sourcable.operation();&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"第二个装饰器后"</span><span>);&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;</span></li><li><span>}&nbsp;&nbsp;</span></li></ol></div><pre name="code" class="java" codeable_id="565629" codeable_type="Blog" source_url="http://chenhua-1984.iteye.com/blog/565629" pre_index="3" title="java 装饰器模式" style="display: none;">package pattern.decorator;
+
+public class Decorator2 implements Sourcable {
+
+	private Sourcable sourcable;
+	public Decorator2(Sourcable sourcable){
+		super();
+		this.sourcable=sourcable;
+	}
+	public void operation() {
+		System.out.println("第二个装饰器前");
+		sourcable.operation();
+		System.out.println("第二个装饰器后");
+
+	}
+
+}
+</pre>
+&nbsp;
+<p style="margin-bottom: 5pt; margin-top: 5pt;" class="p0"><span style="font-size: 10.5pt; font-family: &#39;Times New Roman&#39;;">装饰器类<span style="font-family: Times New Roman;">Decorator1.java</span>
+<span style="">是第三个装饰器，不同的是它装饰的内容不一样，即输出了不同的字符串。其源代码如程序</span>
+<span style="font-family: Times New Roman;">12-26</span>
+<span style="">所示。</span>
+</span>
+<span style="font-size: 10.5pt; font-family: &#39;Times New Roman&#39;;"></span>
+</p>
+<p style="margin-bottom: 5pt; margin-top: 5pt;" class="p0"><span style="font-size: 10.5pt; font-family: &#39;Times New Roman&#39;;">程序<span style="font-family: Times New Roman;">12-26&nbsp;&nbsp;</span>
+<span style="">装饰器类</span>
+<span style="font-family: Times New Roman;">Decorator3.java</span>
+</span>
+<span style="font-size: 10.5pt; font-family: &#39;Times New Roman&#39;;"></span>
+</p>
+<div class="dp-highlighter" id=""><div class="bar"><div class="tools">Java代码 <embed wmode="transparent" src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=package%20pattern.decorator%3B%0A%0Apublic%20class%20Decorator3%20implements%20Sourcable%20%7B%0A%0A%09private%20Sourcable%20sourcable%3B%0A%09public%20Decorator3(Sourcable%20sourcable)%7B%0A%09%09super()%3B%0A%09%09this.sourcable%3Dsourcable%3B%0A%09%7D%0A%09public%20void%20operation()%20%7B%0A%09%09System.out.println(%22%E7%AC%AC%E4%B8%89%E4%B8%AA%E8%A3%85%E9%A5%B0%E5%99%A8%E5%89%8D%22)%3B%0A%09%09sourcable.operation()%3B%0A%09%09System.out.println(%22%E7%AC%AC%E4%B8%89%E4%B8%AA%E8%A3%85%E9%A5%B0%E5%99%A8%E5%90%8E%22)%3B%0A%0A%09%7D%0A%0A%7D%0A" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer">&nbsp;<a href="javascript:void()" title="收藏这段代码" onclick="code_favorites_do_favorite(this);return false;"><img class="star" src="./java 装饰器模式 - 陈华的博客 - ITeye技术网站_files/icon_star.png" alt="收藏代码"><img class="spinner" src="./java 装饰器模式 - 陈华的博客 - ITeye技术网站_files/spinner.gif" style="display:none"></a></div></div><ol start="1" class="dp-j"><li><span><span class="keyword">package</span><span>&nbsp;pattern.decorator;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;</span></li><li><span><span class="keyword">public</span><span>&nbsp;</span><span class="keyword">class</span><span>&nbsp;Decorator3&nbsp;</span><span class="keyword">implements</span><span>&nbsp;Sourcable&nbsp;{&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private</span><span>&nbsp;Sourcable&nbsp;sourcable;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span><span>&nbsp;Decorator3(Sourcable&nbsp;sourcable){&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">super</span><span>();&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span><span>.sourcable=sourcable;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span><span>&nbsp;</span><span class="keyword">void</span><span>&nbsp;operation()&nbsp;{&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"第三个装饰器前"</span><span>);&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sourcable.operation();&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"第三个装饰器后"</span><span>);&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;</span></li><li><span>}&nbsp;&nbsp;</span></li></ol></div><pre name="code" class="java" codeable_id="565629" codeable_type="Blog" source_url="http://chenhua-1984.iteye.com/blog/565629" pre_index="4" title="java 装饰器模式" style="display: none;">package pattern.decorator;
+
+public class Decorator3 implements Sourcable {
+
+	private Sourcable sourcable;
+	public Decorator3(Sourcable sourcable){
+		super();
+		this.sourcable=sourcable;
+	}
+	public void operation() {
+		System.out.println("第三个装饰器前");
+		sourcable.operation();
+		System.out.println("第三个装饰器后");
+
+	}
+
+}
+</pre>
+&nbsp;
+<p style="margin-bottom: 5pt; margin-top: 5pt;" class="p0"><span style="font-size: 10.5pt; font-family: &#39;Times New Roman&#39;;">这时，我们就可以像使用对象的适配器模式一样来使用这些装饰器，使用不同的装饰器就可以达到不同的装饰效果。如程序<span style="font-family: Times New Roman;">12-27</span>
+<span style="">所示，首先需要创建一&nbsp;个源类对象</span>
+<span style="font-family: Times New Roman;">source</span>
+<span style="">，然后根据将对象使用</span>
+<span style="font-family: Times New Roman;">Decorator1</span>
+<span style="">来装饰，并以此使用</span>
+<span style="font-family: Times New Roman;">Decorator2</span>
+<span style="">、</span>
+<span style="font-family: Times New Roman;">Decorator3</span>
+<span style="">进行装饰，装饰后的对象&nbsp;同样具有与</span>
+<span style="font-family: Times New Roman;">source</span>
+<span style="">同样的接口。</span>
+</span>
+<span style="font-size: 10.5pt; font-family: &#39;Times New Roman&#39;;"></span>
+</p>
+<p style="margin-bottom: 5pt; margin-top: 5pt;" class="p0"><span style="font-size: 10.5pt; font-family: &#39;Times New Roman&#39;;">程序<span style="font-family: Times New Roman;">12-27&nbsp;&nbsp;</span>
+<span style="">测试类</span>
+<span style="font-family: Times New Roman;">DecoratorTest.java</span>
+</span>
+<span style="font-size: 10.5pt; font-family: &#39;Times New Roman&#39;;"></span>
+</p>
+<div class="dp-highlighter" id=""><div class="bar"><div class="tools">Java代码 <embed wmode="transparent" src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=package%20pattern.decorator%3B%0A%0Apublic%20class%20DecoratorTest%20%7B%0A%0A%09%2F**%0A%09%20*%20%40param%20args%0A%09%20*%2F%0A%09public%20static%20void%20main(String%5B%5D%20args)%20%7B%0A%09%09Sourcable%20source%20%3D%20new%20Source()%3B%0A%0A%09%09%2F%2F%20%E8%A3%85%E9%A5%B0%E7%B1%BB%E5%AF%B9%E8%B1%A1%20%0A%09%09Sourcable%20obj%20%3D%20new%20Decorator1(new%20Decorator2(new%20Decorator3(source)))%3B%0A%09%09obj.operation()%3B%0A%09%7D%0A%0A%7D%0A" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer">&nbsp;<a href="javascript:void()" title="收藏这段代码" onclick="code_favorites_do_favorite(this);return false;"><img class="star" src="./java 装饰器模式 - 陈华的博客 - ITeye技术网站_files/icon_star.png" alt="收藏代码"><img class="spinner" src="./java 装饰器模式 - 陈华的博客 - ITeye技术网站_files/spinner.gif" style="display:none"></a></div></div><ol start="1" class="dp-j"><li><span><span class="keyword">package</span><span>&nbsp;pattern.decorator;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;</span></li><li><span><span class="keyword">public</span><span>&nbsp;</span><span class="keyword">class</span><span>&nbsp;DecoratorTest&nbsp;{&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">/**</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@param&nbsp;args</span>&nbsp;</span></li><li><span><span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span><span>&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span><span>&nbsp;</span><span class="keyword">static</span><span>&nbsp;</span><span class="keyword">void</span><span>&nbsp;main(String[]&nbsp;args)&nbsp;{&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sourcable&nbsp;source&nbsp;=&nbsp;<span class="keyword">new</span><span>&nbsp;Source();&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">//&nbsp;装饰类对象&nbsp;</span><span>&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sourcable&nbsp;obj&nbsp;=&nbsp;<span class="keyword">new</span><span>&nbsp;Decorator1(</span><span class="keyword">new</span><span>&nbsp;Decorator2(</span><span class="keyword">new</span><span>&nbsp;Decorator3(source)));&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;obj.operation();&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;</span></li><li><span>}&nbsp;&nbsp;</span></li></ol></div><pre name="code" class="java" codeable_id="565629" codeable_type="Blog" source_url="http://chenhua-1984.iteye.com/blog/565629" pre_index="5" title="java 装饰器模式" style="display: none;">package pattern.decorator;
+
+public class DecoratorTest {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		Sourcable source = new Source();
+
+		// 装饰类对象 
+		Sourcable obj = new Decorator1(new Decorator2(new Decorator3(source)));
+		obj.operation();
+	}
+
+}
+</pre>
+&nbsp;
+<p style="margin-bottom: 5pt; margin-top: 5pt;" class="p0"><span style="font-size: 10.5pt; font-family: &#39;Times New Roman&#39;;">运行该程序的输出如下：</span>
+<span style="font-size: 10.5pt; font-family: &#39;Times New Roman&#39;;"></span>
+</p>
+<p style="margin-bottom: 5pt; margin-top: 5pt;" class="p0"><span style="font-size: 10.5pt; font-family: &#39;Times New Roman&#39;;">第<span style="font-family: Times New Roman;">1</span>
+<span style="">个装饰器装饰前</span>
+</span>
+<span style="font-size: 10.5pt; font-family: &#39;Times New Roman&#39;;"></span>
+</p>
+<p style="margin-bottom: 5pt; margin-top: 5pt;" class="p0"><span style="font-size: 10.5pt; font-family: &#39;Times New Roman&#39;;">第<span style="font-family: Times New Roman;">2</span>
+<span style="">个装饰器装饰前</span>
+</span>
+<span style="font-size: 10.5pt; font-family: &#39;Times New Roman&#39;;"></span>
+</p>
+<p style="margin-bottom: 5pt; margin-top: 5pt;" class="p0"><span style="font-size: 10.5pt; font-family: &#39;Times New Roman&#39;;">第<span style="font-family: Times New Roman;">3</span>
+<span style="">个装饰器装饰前</span>
+</span>
+<span style="font-size: 10.5pt; font-family: &#39;Times New Roman&#39;;"></span>
+</p>
+<p style="margin-bottom: 5pt; margin-top: 5pt;" class="p0"><span style="font-size: 10.5pt; font-family: &#39;Times New Roman&#39;;">原始类的方法</span>
+<span style="font-size: 10.5pt; font-family: &#39;Times New Roman&#39;;"></span>
+</p>
+<p style="margin-bottom: 5pt; margin-top: 5pt;" class="p0"><span style="font-size: 10.5pt; font-family: &#39;Times New Roman&#39;;">第<span style="font-family: Times New Roman;">3</span>
+<span style="">个装饰器装饰后</span>
+</span>
+<span style="font-size: 10.5pt; font-family: &#39;Times New Roman&#39;;"></span>
+</p>
+<p style="margin-bottom: 5pt; margin-top: 5pt;" class="p0"><span style="font-size: 10.5pt; font-family: &#39;Times New Roman&#39;;">第<span style="font-family: Times New Roman;">2</span>
+<span style="">个装饰器装饰后</span>
+</span>
+<span style="font-size: 10.5pt; font-family: &#39;Times New Roman&#39;;"></span>
+</p>
+<p style="margin-bottom: 5pt; margin-top: 5pt;" class="p0"><span style="font-size: 10.5pt; font-family: &#39;Times New Roman&#39;;">第<span style="font-family: Times New Roman;">1</span>
+<span style="">个装饰器装饰后</span>
+</span>
+<span style="font-size: 10.5pt; font-family: &#39;Times New Roman&#39;;"></span>
+</p>
+<p style="margin-bottom: 5pt; margin-top: 5pt;" class="p0"><span style="font-size: 10.5pt; font-family: &#39;Times New Roman&#39;;">从输出的结果可以看出，原始类对象<span style="font-family: Times New Roman;">source</span>
+<span style="">依次被</span>
+<span style="font-family: Times New Roman;">Decorator1</span>
+<span style="">、</span>
+<span style="font-family: Times New Roman;">Decorator2</span>
+<span style="">、</span>
+<span style="font-family: Times New Roman;">Decorator3</span>
+<span style="">进行了装饰。</span>
+</span>
+<span style="font-size: 10.5pt; font-family: &#39;Times New Roman&#39;;"></span>
+</p>
+<p style="margin-bottom: 5pt; margin-top: 5pt;" class="p0">&nbsp;</p>
+  </div>
+
+  
+
+  
+  
+  <iframe src="./java 装饰器模式 - 陈华的博客 - ITeye技术网站_files/794.htm" scrolling="no" width="680" height="90" frameborder="0"></iframe>
+  
+  <div id="bottoms" class="clearfix">
+    
+    <div id="share_weibo">分享到：
+      <a data-type="sina" href="javascript:;" title="分享到新浪微博"><img src="./java 装饰器模式 - 陈华的博客 - ITeye技术网站_files/sina.jpg"></a>
+      <a data-type="qq" href="javascript:;" title="分享到腾讯微博"><img src="./java 装饰器模式 - 陈华的博客 - ITeye技术网站_files/tec.jpg"></a>
+    </div>
+  </div>
+
+  <div class="blog_nav">
+    <div class="pre_next">
+      <a href="http://chenhua-1984.iteye.com/blog/573488" class="next" title="jasperreports 动态报表代码备份">jasperreports 动态报表代码备份</a>
+      |
+      <a href="http://chenhua-1984.iteye.com/blog/564167" class="pre" title="左边菜单隐藏，右边全屏">左边菜单隐藏，右边全屏</a>
+    </div>
+  </div>
+  <div class="blog_bottom">
+    <ul>
+      <li>2010-01-08 11:07</li>
+      <li>浏览 15527</li>
+      <li><a href="http://chenhua-1984.iteye.com/blog/565629#comments">评论(11)</a></li>
+      
+      
+      <li>分类:<a href="http://www.iteye.com/blogs/category/architecture">企业架构</a></li>      
+      <li class="last"><a href="http://www.iteye.com/wiki/blog/565629" target="_blank" class="more">相关推荐</a></li>
+    </ul>
+  </div>
+
+  <div class="blog_comment">
+    <h5>评论</h5>
+    <a id="comments" name="comments"></a>
+    <div id="bc2363447">
+  <div class="comment_title">
+    11 楼
+    <a href="http://972459637-qq-com.iteye.com/" target="_blank" title="随便小屋">随便小屋</a>
+    2014-11-21&nbsp;&nbsp;
+    
+    
+  </div>
+  <div class="comment_content">写的不错！</div>
+</div>
+
+<div id="bc2340095">
+  <div class="comment_title">
+    10 楼
+    <a href="http://1632686004.iteye.com/" target="_blank" title="大智若愚">大智若愚</a>
+    2014-02-20&nbsp;&nbsp;
+    
+    
+  </div>
+  <div class="comment_content"><img src="./java 装饰器模式 - 陈华的博客 - ITeye技术网站_files/icon_wink.gif"> 非常漂亮！！</div>
+</div>
+
+<div id="bc2319252">
+  <div class="comment_title">
+    9 楼
+    <a href="http://livon.iteye.com/" target="_blank" title="Livon">Livon</a>
+    2013-07-19&nbsp;&nbsp;
+    
+    
+  </div>
+  <div class="comment_content"><img src="./java 装饰器模式 - 陈华的博客 - ITeye技术网站_files/icon_idea.gif"> 赞一个！</div>
+</div>
+
+<div id="bc2314407">
+  <div class="comment_title">
+    8 楼
+    <a href="http://dengfuyou0719.iteye.com/" target="_blank" title="dengfuyou0719">dengfuyou0719</a>
+    2013-06-06&nbsp;&nbsp;
+    
+    
+  </div>
+  <div class="comment_content"><img src="./java 装饰器模式 - 陈华的博客 - ITeye技术网站_files/icon_arrow.gif"> </div>
+</div>
+
+<div id="bc2314406">
+  <div class="comment_title">
+    7 楼
+    <a href="http://dengfuyou0719.iteye.com/" target="_blank" title="dengfuyou0719">dengfuyou0719</a>
+    2013-06-06&nbsp;&nbsp;
+    
+    
+  </div>
+  <div class="comment_content"><img src="./java 装饰器模式 - 陈华的博客 - ITeye技术网站_files/icon_arrow.gif"> </div>
+</div>
+
+<div id="bc2299665">
+  <div class="comment_title">
+    6 楼
+    <a href="http://ilahsa.iteye.com/" target="_blank" title="ilahsa">ilahsa</a>
+    2013-01-31&nbsp;&nbsp;
+    
+    
+  </div>
+  <div class="comment_content">very good</div>
+</div>
+
+<div id="bc2212001">
+  <div class="comment_title">
+    5 楼
+    <a href="http://ayin2767.iteye.com/" target="_blank" title="Ayin2767">Ayin2767</a>
+    2011-08-21&nbsp;&nbsp;
+    
+    
+  </div>
+  <div class="comment_content"><img src="./java 装饰器模式 - 陈华的博客 - ITeye技术网站_files/icon_biggrin.gif"> 写的非常好，浅显易懂。高手总是能将复杂的事情简单化。</div>
+</div>
+
+<div id="bc2210367">
+  <div class="comment_title">
+    4 楼
+    <a href="http://wwyu8901.iteye.com/" target="_blank" title="wwyu8901">wwyu8901</a>
+    2011-08-12&nbsp;&nbsp;
+    
+    
+  </div>
+  <div class="comment_content">好文章，搞懂了。。。</div>
+</div>
+
+<div id="bc1596140">
+  <div class="comment_title">
+    3 楼
+    <a href="http://speed-guo.iteye.com/" target="_blank" title="speed_guo">speed_guo</a>
+    2010-07-26&nbsp;&nbsp;
+    
+    
+  </div>
+  <div class="comment_content">讲得可以，浅显.
+<br></div>
+</div>
+
+<div id="bc1534414">
+  <div class="comment_title">
+    2 楼
+    <a href="http://javamanlcy007.iteye.com/" target="_blank" title="javamanlcy007">javamanlcy007</a>
+    2010-06-10&nbsp;&nbsp;
+    
+    
+  </div>
+  <div class="comment_content">不错,非常不错</div>
+</div>
+
+<div id="bc1322958">
+  <div class="comment_title">
+    1 楼
+    <a href="http://asialee.iteye.com/" target="_blank" title="asialee">asialee</a>
+    2010-01-09&nbsp;&nbsp;
+    
+    
+  </div>
+  <div class="comment_content">讲的比较通俗易懂。</div>
+</div>
+
+
+    
+    
+  </div>
+
+  <div class="blog_comment">
+    <h5>发表评论</h5>
+            <p style="text-align:center; margin-top:30px;margin-bottom:0px;"><a href="http://chenhua-1984.iteye.com/login" style="background-color:white;"> <img src="./java 装饰器模式 - 陈华的博客 - ITeye技术网站_files/login_icon.png" style="vertical-align:middle; margin-right: 10px;"></a><a href="http://chenhua-1984.iteye.com/login">  您还没有登录,请您登录后再发表评论 </a></p>
+      </div>
+</div>
+
+
+<script type="text/javascript">
+  dp.SyntaxHighlighter.HighlightAll('code', true, true);
+
+  $$('#main .blog_content pre[name=code]').each(function(pre, index){ // blog content
+    var post_id = 565629;
+    var location = window.location;
+    source_url = location.protocol + "//" + location.host + location.pathname + location.search;
+    pre.writeAttribute('codeable_id', post_id);
+    pre.writeAttribute('codeable_type', "Blog");
+    pre.writeAttribute('source_url', source_url);
+    pre.writeAttribute('pre_index', index);
+    pre.writeAttribute('title', 'java 装饰器模式');
+  });
+
+  fix_image_size($$('div.blog_content img'), 700);
+
+  function processComment() {
+    $$('#main .blog_comment > div').each(function(comment){// comment
+      var post_id = comment.id.substr(2);
+      $$("#"+comment.id+" pre[name=code]").each(function(pre, index){
+        var location = window.location;
+        source_url = location.protocol + "//" + location.host + location.pathname + location.search;
+        source_url += "#" + comment.id;
+        pre.writeAttribute('codeable_id', post_id);
+        pre.writeAttribute('codeable_type', "BlogComment");
+        pre.writeAttribute('source_url', source_url);
+        pre.writeAttribute('pre_index', index);
+        pre.writeAttribute('title', 'java 装饰器模式');
+      });
+    });
+  }
+
+  function quote_comment(id) {
+    new Ajax.Request('/editor/quote', {
+      parameters: {'id':id, 'type':'BlogComment'},
+      onSuccess:function(response){editor.bbcode_editor.textarea.insertAfterSelection(response.responseText);
+        Element.scrollTo(editor.bbcode_editor.textarea.element);}
+    });
+  }
+
+  code_favorites_init();
+  processComment();
+  new WeiboShare({share_buttons: $('share_weibo'), img_scope: $('blog_content')});
+</script>
+
+
+
+
+        </div>
+
+        <div id="local">
+          <div class="local_top"></div>
+          <div id="blog_owner">
+  <div id="blog_owner_logo"><a href="http://chenhua-1984.iteye.com/"><img alt="chenhua_1984的博客" class="logo" src="./java 装饰器模式 - 陈华的博客 - ITeye技术网站_files/4845ee7f-213a-3b11-acc6-282bb46804ca.jpg" title="chenhua_1984的博客: 陈华的博客" width=""></a></div>
+  <div id="blog_owner_name">chenhua_1984</div>
+</div>
+
+          <div id="blog_actions">
+            <ul>
+              <li>浏览: 546654 次</li>
+              <li>性别: <img alt="Icon_minigender_1" src="./java 装饰器模式 - 陈华的博客 - ITeye技术网站_files/icon_minigender_1.gif" title="男"></li>
+              <li>来自: 杭州</li>
+              <li><img src="./java 装饰器模式 - 陈华的博客 - ITeye技术网站_files/offline.gif"></li>
+              
+            </ul>
+          </div>
+          <div id="user_visits" class="clearfix">
+            <h5>最近访客 <span style="font-weight:normal;font-size:12px;padding-left:30px;"><a href="http://chenhua-1984.iteye.com/blog/user_visits">更多访客&gt;&gt;</a></span></h5>
+            
+              <div class="user_visit">
+                <div class="logo"><a href="http://lvwkpt.iteye.com/" target="_blank"><img alt="lvwkpt的博客" class="logo" src="./java 装饰器模式 - 陈华的博客 - ITeye技术网站_files/user-logo-thumb.gif" title="lvwkpt的博客: " width="48px"></a></div>
+                <div class="left"><a href="http://lvwkpt.iteye.com/" target="_blank" title="lvwkpt">lvwkpt</a></div>
+              </div>
+            
+              <div class="user_visit">
+                <div class="logo"><a href="http://201512270856.iteye.com/" target="_blank"><img alt="无语天诚的博客" class="logo" src="./java 装饰器模式 - 陈华的博客 - ITeye技术网站_files/user-logo-thumb.gif" title="无语天诚的博客: " width="48px"></a></div>
+                <div class="left"><a href="http://201512270856.iteye.com/" target="_blank" title="无语天诚">无语天诚</a></div>
+              </div>
+            
+              <div class="user_visit">
+                <div class="logo"><a href="http://fujerry.iteye.com/" target="_blank"><img alt="fujerry的博客" class="logo" src="./java 装饰器模式 - 陈华的博客 - ITeye技术网站_files/user-logo-thumb.gif" title="fujerry的博客: fujerry" width="48px"></a></div>
+                <div class="left"><a href="http://fujerry.iteye.com/" target="_blank" title="fujerry">fujerry</a></div>
+              </div>
+            
+              <div class="user_visit">
+                <div class="logo"><a href="http://wang-min-zhao-sina-com.iteye.com/" target="_blank"><img alt="望月怀远的博客" class="logo" src="./java 装饰器模式 - 陈华的博客 - ITeye技术网站_files/213ad2f7-e5b6-321a-9088-fe12aab9f7f4-thumb.jpg" title="望月怀远的博客: " width="48px"></a></div>
+                <div class="left"><a href="http://wang-min-zhao-sina-com.iteye.com/" target="_blank" title="望月怀远">望月怀远</a></div>
+              </div>
+            
+          </div>
+
+          
+
+                      <div id="blog_menu">
+              <h5>文章分类</h5>
+              <ul>
+                <li><a href="http://chenhua-1984.iteye.com/">全部博客 (387)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/49988">心情故事 (12)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/49989">java (110)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/49990">linux (53)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/49991">关系型数据库 (35)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/49999">struts,jsf,spring (11)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/50000">jdbc,hibernate,ibatis (11)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/50003">jsp,jstl,c:tag,标签库 (2)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/50004">ejb,webservice (1)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/50009">tomcat,jboss,jetty,weblogic,websphere (15)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/61752">java网络编程 (6)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/61753">java线程 (0)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/61754">js,jquery,json,xml,dom,html.regex (25)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/61937">设计模式 (6)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/63295">BUG记录 (2)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/64587">ant (2)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/64718">jsp,servlet (4)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/64975">swing (6)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/66104">lucene+nutch (6)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/69123">log4j (2)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/70549">windows doc (2)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/85686">ruby (1)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/87443">ruby on rails (3)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/96599">操作系统网络 (17)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/179385">apache 错误 (1)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/179386">tomcat (10)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/179387">jboss (9)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/179388">jetty (9)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/179389">weblogic (9)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/179390">websphere (10)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/179391">apache (2)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/189427">AIX的iostat命令查看系统磁盘的使用情况 (1)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/196607">oracle 统计一个表格有多少列 (1)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/203149">Exception in thread "main" java.security.KeyStoreException: Windows-MY not found (1)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/206434">jsp (1)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/206435">jstl (1)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/206436">c:tag (1)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/206437">标签库 (1)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/206438">struts (1)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/206439">jsf (1)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/206440">spring (1)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/215341">oracle，sqlplus (2)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/215344">sqlplus (2)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/215357">show errors (1)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/215359">proc (1)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/215360">function (1)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/215373">ORA-06544: PL/SQL: internal error (1)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/215374">arguments: [55916] (1)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/215375">[] (7)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/217792">终端身份实施文档 (1)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/218518">重装系统之后飞鸽传书只能看到自己 (1)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/219479">vsftp "上传 553 Could not create file" (1)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/221930">startWebLogic.sh启动失败，提示Error initializing Embedded LDAP Server (1)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/224680">java agent  注册为  windows 服务 (2)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/225165">centos (1)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/225166">svn (1)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/225167">apr (1)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/225168">apr-util (1)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/225403">activemq (2)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/225890">oracle (5)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/225891">mysql (3)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/225892">nosql (3)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/230106">NSIS (1)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/247426">windows wmic (1)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/248731">c 指针 (1)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/248757">c c++ (0)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/255237">jmeter (0)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/255238">性能测试 (0)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/266297">linux，备份 (2)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/266542">C++ ，Virtual (1)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/272211">windows dos (1)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/272322">android (2)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/275752">大数据,云计算 (1)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/282635">JVM垃圾收集 (1)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/288394">jdbc (2)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/288786">invoke (1)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/291862">hibernate (1)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/291863">ibatis (1)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/313962">个人开源项目源码收藏 (1)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/313964">批处理 (1)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/322404">Mongodb mapreduce (8)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/323590">kettle (1)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/327801">Mongodb capped (1)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/328057">mongodb gridfs (1)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/328068">Mongodb 入门基础知识 (1)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/328070">mongodb (8)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/328389">hadoop2.5.1 (1)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/328673">hadoop (4)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/328705">eclipse (1)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/328707">hdfs fs (1)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/328721">elipse hadoop plugin (1)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/339429">PHP相关知识 (1)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/343710">js (1)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/343711">jquery (1)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/343712">json (1)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/343713">xml (1)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/343714">dom (1)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/343715">html.regex (1)</a></li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/category/344233">网络知识 (1)</a></li>
+                
+              </ul>
+            </div>
+            <div id="month_blogs">
+              <h5>社区版块</h5>
+              <ul>
+                <li><a href="http://chenhua-1984.iteye.com/blog/news">我的资讯</a> (0)</li>
+                <li>
+                  <a href="http://chenhua-1984.iteye.com/blog/post">我的论坛</a> (155)
+                </li>
+                <li><a href="http://chenhua-1984.iteye.com/blog/answered_problems">我的问答</a> (13)</li>
+              </ul>
+            </div>
+            <div id="month_blogs">
+              <h5>存档分类</h5>
+              <ul>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/blog/monthblog/2015-11">2015-11</a> (3)</li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/blog/monthblog/2015-08">2015-08</a> (2)</li>
+                
+                  <li><a href="http://chenhua-1984.iteye.com/blog/monthblog/2015-07">2015-07</a> (1)</li>
+                
+                <li><a href="http://chenhua-1984.iteye.com/blog/monthblog_more">更多存档...</a></li>
+              </ul>
+            </div>
+            
+            
+
+            <div id="guest_books">
+              <h5>最新评论</h5>
+              <ul>
+                
+                <li>
+                  <a href="http://2793788826.iteye.com/" target="_blank" title="springdata_springmvc">springdata_springmvc</a>： 
+                  java程序语言学习教程 地址http://www.zuida ...<br>
+                  <a href="http://chenhua-1984.iteye.com/blog/383494#bc2375998">java获取当前操作系统的信息</a>
+                </li>
+                
+                <li>
+                  <a href="http://huanzei.iteye.com/" target="_blank" title="huanzei">huanzei</a>： 
+                  整理的不错，<br>
+                  <a href="http://chenhua-1984.iteye.com/blog/289948#bc2371729">oracle lpad函数</a>
+                </li>
+                
+                <li>
+                  <a href="http://chenhua-1984.iteye.com/" target="_blank" title="chenhua_1984">chenhua_1984</a>： 
+                  代码很久了，这个应该是包裹在外面的DIV的ID<br>
+                  <a href="http://chenhua-1984.iteye.com/blog/404701#bc2371282">js添加一个新行，可以输入的Input，用于添加更多的业务</a>
+                </li>
+                
+                <li>
+                  <a href="http://zyj8421.iteye.com/" target="_blank" title="Zyj8421">Zyj8421</a>： 
+                  能把你的jsp页面信息也一同发出来么。num id之类的都不知 ...<br>
+                  <a href="http://chenhua-1984.iteye.com/blog/404701#bc2371280">js添加一个新行，可以输入的Input，用于添加更多的业务</a>
+                </li>
+                
+                <li>
+                  <a href="http://972459637-qq-com.iteye.com/" target="_blank" title="随便小屋">随便小屋</a>： 
+                  写的不错！<br>
+                  <a href="http://chenhua-1984.iteye.com/blog/565629#bc2363447">java 装饰器模式</a>
+                </li>
+                
+              </ul>
+            </div>
+
+            <div class="local_bottom"></div>
+          
+        </div>
+      </div>
+
+      <div id="footer" class="clearfix">
+        <div id="copyright">
+          <hr>
+          声明：ITeye文章版权属于作者，受法律保护。没有作者书面许可不得转载。若作者同意转载，必须以超链接形式标明文章原始出处和作者。<br>
+          © 2003-2015 ITeye.com.   All rights reserved.  [ 京ICP证110151号  京公网安备110105010620 ]
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript">
+  document.write("<img src='http://stat.iteye.com/?url="+ encodeURIComponent(document.location.href) + "&referrer=" + encodeURIComponent(document.referrer) + "&user_id=' width='0' height='0' />");
+</script><img src="./java 装饰器模式 - 陈华的博客 - ITeye技术网站_files/saved_resource" width="0" height="0">
+
+<script src="./java 装饰器模式 - 陈华的博客 - ITeye技术网站_files/tracking.js" type="text/javascript"></script>
+
+    
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', '']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+      
+    
+  
+
+
+
+<div id="window-resizer-tooltip"><a href="http://chenhua-1984.iteye.com/blog/565629#" title="Edit settings"></a><span class="tooltipTitle">Window size: </span><span class="tooltipWidth" id="winWidth"></span> x <span class="tooltipHeight" id="winHeight"></span><br><span class="tooltipTitle">Viewport size: </span><span class="tooltipWidth" id="vpWidth"></span> x <span class="tooltipHeight" id="vpHeight"></span></div></body></html>

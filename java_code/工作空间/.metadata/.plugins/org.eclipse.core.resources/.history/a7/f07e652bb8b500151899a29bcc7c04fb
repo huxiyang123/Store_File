@@ -1,0 +1,18 @@
+package practice;
+
+import java.io.InputStream;
+
+public class HttpUtillsClient1 implements Callback {
+
+	@Override
+	public void send(InputStream bs) {
+		// TODO 自动生成的方法存根
+
+	}
+
+	public static void main(String[] args) {
+		// TODO 自动生成的方法存根
+
+	}
+
+}

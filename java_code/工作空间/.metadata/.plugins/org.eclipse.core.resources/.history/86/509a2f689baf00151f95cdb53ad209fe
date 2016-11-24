@@ -1,0 +1,72 @@
+package pracice;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+/*
+ * 接受客户端的文件
+ * 	步骤：
+ * 	 1 创建ServerSocket对象，传入端口。
+ * 	 2 根据ServerSocket的accept方法获取Socket对象。
+ * 	 3 使用缓冲输入流读取客户端的文件信息。
+ * 	 4 如果需要给客户端返回信息
+ */
+public class Server {
+
+	public static void main(String[] args) {
+		ServerSocket ss = null;
+		Socket socket = null;
+		BufferedInputStream bis = null;
+		BufferedOutputStream bos = null;
+		BufferedWriter bw = null;
+		try {
+			ss = new ServerSocket(9999);
+			socket = ss.accept(); 
+			bis = new BufferedInputStream(socket.getInputStream());
+			bos = new BufferedOutputStream(new FileOutputStream("e:\\拷贝1.bmp"));
+			int len = 0;
+			byte[] byt = new byte[1024];
+			while((len=bis.read(byt))!=-1){
+				bos.write(byt,0,len);
+				bos.flush();
+			}
+			//返回信息
+			
+			bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+			bw.write("你的信息我已收到，谢谢");
+			bw.flush();
+		} catch (FileNotFoundException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		}
+		finally{
+			try {
+				if(bos!=null)
+					bos.close();
+				if(bis!=null)
+					bis.close();
+				if(socket!=null)
+					socket.close();
+				if(ss!=null)
+					ss.close();
+				if(bw!=null)
+					bw.close();
+			} catch (IOException e) {
+				// TODO 自动生成的 catch 块
+				e.printStackTrace();
+			}
+		}
+
+	}
+
+}

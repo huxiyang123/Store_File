@@ -1,0 +1,22 @@
+package homework;
+
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.net.Socket;
+
+/*
+ * 1  使用TCP/IP协议从客户端发送一张图片给服务端，服务端保存后发送响应信息。
+ */
+public class TCPClient {
+
+	public static void main(String[] args) {
+		Socket socket = null;
+		BufferedInputStream bis = null;
+		socket = new Socket("10.12.152.55",1133);
+		bis = new BufferedInputStream(new FileInputStream("D:\\test\\chen.bmp"));
+		
+		
+
+	}
+
+}

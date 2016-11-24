@@ -1,0 +1,24 @@
+package StudyJSON;
+
+import java.util.List;
+
+import com.alibaba.fastjson.JSONObject;
+
+/*
+ * FastJson:Alibaba公司
+ */
+public class TestFastASTJson {
+	public static void main(String[] args) {
+		//简单的
+		String jsonStr = "{sid:1,sname:'zhangsan'}";
+		Student  s = JSONObject.parseObject(jsonStr,Student.class);
+		System.out.println(s);
+
+		//==========较复杂的GSON解析方法=====================================================
+		String jsonStr2 = "[{sid:1,sname:'zhangsan'},{sid:2,sname:'lisi'}]";
+		List<Student> list = JSONObject.parseArray(jsonStr2,Student.class);
+		for(Student st:list){
+			System.out.println(st);
+		}
+	}
+}

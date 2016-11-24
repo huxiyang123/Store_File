@@ -1,0 +1,23 @@
+package study;
+/*
+ * UDP:User Datagram Protocol 用户数据报协议
+ * 	特色：
+ * 		1 相关的发送方，发送内容封装到一个DatagramPacket数据报中
+ * 		2 大小有限制，不能超过64k
+ *  	3 不需要连接，所以是不可能的
+ *  	4 发送结束无需释放资源，所以速度很快
+ * 	DatagramSocket:表示用来发送和接收数据报包的套接字
+ * 	 构造方法：
+ * 
+ * 	 方法：
+ * 		receive(DatagramPacket p)从此套接字接收数据报包。
+ * 		send(DatagramPacket p) 从此套接字发送数据报包。
+ */
+public class TestUDP {
+
+	public static void main(String[] args) {
+		
+
+	}
+
+}

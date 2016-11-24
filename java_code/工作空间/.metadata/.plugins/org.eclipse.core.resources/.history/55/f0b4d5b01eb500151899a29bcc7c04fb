@@ -1,0 +1,66 @@
+package study;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.impl.client.CloseableHttpClient;
+/*
+ * 
+ */
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
+
+public class TestHttpClientPost {
+
+	public static void main(String[] args) {
+		
+		CloseableHttpResponse response = null;
+		CloseableHttpClient httpclient = HttpClients.createDefault();
+		HttpPost post = new HttpPost("http://10.12.152.65:8080/first/Login?user=admin&&pass=123456");
+		
+		List<NameValuePair> list = new ArrayList<NameValuePair>();
+		list.add(new BasicNameValuePair("user","admin"));
+		list.add(new BasicNameValuePair("pass","123456"));
+		
+		try {
+			post.setEntity(new UrlEncodedFormEntity(list));
+			
+			response = httpclient.execute(post);
+			if(response.getStatusLine().getStatusCode()==200){
+				HttpEntity entity = response.getEntity();
+				EntityUtils.consume(entity);
+				System.out.println(EntityUtils.toString(entity));
+			}
+		} catch (UnsupportedEncodingException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		} catch (ClientProtocolException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		}
+		finally{
+			try {
+				if(response!=null)
+					response.close();
+			} catch (IOException e) {
+				// TODO 自动生成的 catch 块
+				e.printStackTrace();
+			}
+		}
+		
+	}
+
+}

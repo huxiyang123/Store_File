@@ -1,0 +1,57 @@
+package study;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+/*
+ * Tcp/Ip服务端的编程
+ * 
+ * 步骤：
+ * 	1 创建客户端Socket对象，传入对应的InetAddress和port参数，相当于和服务器建立连接。
+ * 	2 根据需要调用Socket
+ */
+public class Server {
+	public static void main(String[] args) {
+		BufferedReader br = null;
+		BufferedWriter bw = null;
+		ServerSocket ss = null;
+		OutputStream os  = null;
+		Socket s = null;
+		try {
+			ss = new ServerSocket(8888);
+			s = ss.accept();
+			br = new BufferedReader(new InputStreamReader(s.getInputStream()));
+			bw = new BufferedWriter(new OutputStreamWriter(s.getOutputStream()));
+			while (true) {
+				String len = br.readLine();
+				
+				bw.write(len);
+				bw.flush();
+			}
+		} catch (IOException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		} finally {
+			try {
+				if (bw != null)
+					bw.close();
+				if (br != null)
+					br.close();
+				if (s != null)
+					s.close();
+				if (ss != null)
+					ss.close();
+			} catch (IOException e) {
+				// TODO 自动生成的 catch 块
+				e.printStackTrace();
+			}
+		}
+	}
+}

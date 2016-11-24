@@ -1,0 +1,19 @@
+package pracice;
+
+import java.io.InputStream;
+import java.net.InetAddress;
+import java.net.Socket;
+
+/*
+ * 拷贝客户端 的图片到服务器
+ * 	步骤：
+ * 	  1 创建客户端Socket对象，
+ * 	  2 使用缓冲字节输入流读取图片
+ * 	  3 获取Socket的输出流对象，在读图片的同时网服务端I/O中写出
+ * 	  4 关闭Socket I/O对象
+ */
+public class Client {
+	public static void main(String[] args) {
+		Socket socket = new Socket(InetAddress.getLocalHost(),9999);
+	}
+}

@@ -1,0 +1,24 @@
+package study;
+
+import java.net.ServerSocket;
+import java.net.Socket;
+
+/*
+ * Tcp/Ip服务端的编程
+ * 
+ * 步骤：
+ * 	1 创建客户端Socket对象，传入对应的InetAddress和port参数，相当于和服务器建立连接。
+ * 	2 根据需要调用Socket
+ */
+public class Server {
+	public static void main(String[] args) {
+		ServerSocket ss = new ServerSocket(8888); 
+		Socket s = ss.accept();
+		InputStream is = s.getInputStream();
+		int len = 0;
+		byte[] bs = new byte[1024];
+		while((len =is.read(bs))!=-1){
+			
+		}
+	}
+}

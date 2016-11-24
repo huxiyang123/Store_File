@@ -1,0 +1,68 @@
+package homework;
+
+import java.util.List;
+
+public class StudentXML {
+	private int id;
+	private String name;
+	private String sex;
+	private List<Course> course;
+	
+	/**
+	 * @return course
+	 */
+	public List<Course> getCourse() {
+		return course;
+	}
+	/* （非 Javadoc）
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "StudentXML [id=" + id + ", name=" + name + ", sex=" + sex
+				+ ", course=" + course + "]";
+	}
+	/**
+	 * @param course 要设置的 course
+	 */
+	public void setCourse(List<Course> course) {
+		this.course = course;
+	}
+	/**
+	 * @return id
+	 */
+	public int getId() {
+		return id;
+	}
+	/**
+	 * @param id 要设置的 id
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+	/**
+	 * @return name
+	 */
+	public String getName() {
+		return name;
+	}
+	/**
+	 * @param name 要设置的 name
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+	/**
+	 * @return sex
+	 */
+	public String getSex() {
+		return sex;
+	}
+	/**
+	 * @param sex 要设置的 sex
+	 */
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+	
+}

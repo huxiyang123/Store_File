@@ -1,0 +1,39 @@
+package homework;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+
+import com.alibaba.fastjson.JSONObject;
+
+
+public class TestCountry {
+
+	public static void main(String[] args) {
+		BufferedReader br = null;
+		StringBuilder sb = new StringBuilder();
+		try {
+			br = new BufferedReader(new FileReader("20160109作业-胡喜洋.txt"));
+			String temp = null;
+			while((temp=br.readLine())!=null){
+				sb.append(temp);
+			}
+			String  str = sb.toString();
+			System.out.println(str);
+			String s = str.replace("城市代码", "citycode").replace("省", "province").replace("市名", "cityName").replace("市", "city").replace("编码", "cityNumber");
+			System.out.println(s);
+			Country coun = JSONObject.parseObject(s, Country.class);
+			System.out.println(coun);
+		} catch (FileNotFoundException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		}
+		//coun.replace("城市代码", "a").replace("省", "b").replace("市名", "c").replace("市", "d").replace("编码", "f");
+
+	}
+
+}

@@ -1,0 +1,13 @@
+package com.homework;
+
+public class Test {
+
+	public static void main(String[] args) {
+		All  a = new All(" ",4);
+		Single s =new Single(a);
+		new Thread(s,"数字是").start();
+		Double d = new Double(a);
+		new Thread(d,"数字式").start();
+	}
+
+}

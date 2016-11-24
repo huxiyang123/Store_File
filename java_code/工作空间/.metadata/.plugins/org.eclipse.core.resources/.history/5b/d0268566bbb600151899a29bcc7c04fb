@@ -1,0 +1,20 @@
+package StudyJSON.reflect;
+
+import java.lang.reflect.Constructor;
+
+import StudyJSON.Student;
+
+/*
+ * 反射：reflection
+ * 	  使用class文件产生类的对象，或者查看类信息
+ * 	
+ */
+public class TestReflect {
+
+	public static void main(String[] args) {
+		Class<Student> c = Student.class;
+	
+	
+	}
+
+}

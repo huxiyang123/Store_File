@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<books>
+    <!-- book元素定义开始 -->
+	<book type="computer">
+		<id>001</id>
+		<name>Think in Java</name>
+		<price>80.00</price>
+	</book>
+	<!-- book元素定义结束 -->
+	<book type="history">
+		<id>002</id>
+		<name>Android start</name>
+		<price>89.00</price>
+	</book>
+</books>
+

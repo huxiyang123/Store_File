@@ -1,0 +1,45 @@
+package study;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
+/*
+ * Tcp/Ip的客户端
+ * 客户端给服务端没发送信息，服务端接收后显示出来
+ * 步骤：
+ * 	1 创建客户端Socket对象，传入对应的InetAddress和port参数，相当于和服务器建立连接。
+ * 	2 根据需要调用Socket
+ */
+public class Client {
+	public static void main(String[] args) {
+		Socket socket = null;
+		OutputStream os = null;
+		try {
+			socket = new Socket("10.12.152.67",8888);
+			os = socket.getOutputStream();
+			os.write("你好，我是客户端".getBytes());
+		} catch (UnknownHostException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		}
+		finally{
+			
+			try {
+				if(socket!=null)
+				socket.close();
+				if(os!=null)
+				os.close();
+			} catch (IOException e) {
+				// TODO 自动生成的 catch 块
+				e.printStackTrace();
+			}
+			
+		}
+	}
+}

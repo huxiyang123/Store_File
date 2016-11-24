@@ -1,0 +1,21 @@
+package practice;
+
+import java.io.InputStream;
+
+public class HttpUtillsClient1 implements Callback {
+
+	@Override
+	public void send(InputStream bs) {
+		// TODO 自动生成的方法存根
+
+	}
+
+	public static void main(String[] args) {
+		System.out.println("main method begining");
+		TestHttpClient test = new TestHttpClient();
+		String path = ("http://10.12.152.65:8080//first/images/fish.jpg");
+		HttpUtilsClient.download(path, test);
+		
+	}
+
+}

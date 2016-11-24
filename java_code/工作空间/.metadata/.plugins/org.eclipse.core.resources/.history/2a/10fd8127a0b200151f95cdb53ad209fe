@@ -1,0 +1,48 @@
+package study;
+
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.SocketException;
+
+public class MyServer {
+
+	public static void main(String[] args) {
+		DatagramSocket ds = null;
+		BufferedWriter bw = null;
+		try {
+			ds = new DatagramSocket(5555);
+			bw = new BufferedWriter(new OutputStreamWriter(System.out));
+			byte[] by = new byte[1024];
+			DatagramPacket dp = new DatagramPacket(by,0,by.length);
+			ds.receive(dp);
+			String str = new String(dp.getData(),0,dp.getLength());
+			
+			bw.write(str);
+			bw.flush();
+		} catch (SocketException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		}
+		finally{
+			try {
+				if(bw!=null)
+					bw.close();
+			} catch (IOException e) {
+				// TODO 自动生成的 catch 块
+				e.printStackTrace();
+			}
+			if(ds!=null)
+				ds.close();
+		}
+			
+		
+
+	}
+
+}

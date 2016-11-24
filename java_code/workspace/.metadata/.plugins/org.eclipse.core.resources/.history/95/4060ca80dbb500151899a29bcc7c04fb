@@ -1,0 +1,50 @@
+package StudyXML;
+
+import java.awt.print.Book;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
+import org.xml.sax.helpers.DefaultHandler;
+/*元素的命名规则：
+ * 	1 严格区分大小写
+ * 	2 不能以数字和“_”开头
+ * 	3 不能使用xml(或XML)关键字开始
+ * 	4 不能包含空格
+ * 	5 名称之间不能包含：号
+ * 实体引用：
+ * 		>:&lt
+ * 解析方式：
+ * 	1 SAX解析：使用事件方式解析
+ * 	2 pull解析：使用事件常量解析
+ * 	3 DOM解析：把XML完全转换为dom树村子内存中解析
+ */
+
+public class TestXMLSax {
+
+	public static void main(String[] args) {
+		SAXParser parser =null;
+		parser = SAXParserFactory.newInstance().newSAXParser();
+		List<Book> list = new ArrayList();
+
+	}
+	class MyHandler extends DefaultHandler{
+		private List<Book> books;
+
+		public MyHandler(List<Book> books) {
+			this.books = books;
+		}
+	}
+
+}
+
+
+
+
+
+
+
+
+

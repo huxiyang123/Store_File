@@ -1,0 +1,37 @@
+package StudyJSON;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import net.sf.json.JSONArray;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+
+public class TestGSON {
+
+	public static void main(String[] args) {
+		String jsonStr = "{sid:1,sname:'zhangsan'}";
+		Gson gson = new Gson();
+		Student s = gson.fromJson(jsonStr, Student.class);
+		
+		System.out.println(s);
+		
+//===============================================================
+		String jsonStr2 = "{student:[{sid:1,sname:'zhangsan'},{sid:2,sname:'lisi'}]}";
+		JsonParser parser = new JsonParser();
+		List<Student> list = new ArrayList<>();
+		JsonElement element = parser.parse(jsonStr2);
+		if(element.isJsonArray()){
+			JsonArray object = element.getAsJsonArray();
+			for(JsonElement jo:object){
+				list.add(gson.fromJson(jo, Student.class));
+				
+			}
+		}
+		System.out.println(list);
+	}
+
+}

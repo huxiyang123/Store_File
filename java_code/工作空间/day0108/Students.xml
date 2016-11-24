@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="GBK"?>
+<students>
+  <student no="001">
+    <name>zhangsna</name>
+    <sex>male</sex>
+    <age>18</age>
+    <country>china</country>
+  </student>
+   <student no="002">
+    <name>lisi</name>
+    <sex>famle</sex>
+    <age>20</age>
+    <country>indian</country>
+  </student>
+</students>

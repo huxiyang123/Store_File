@@ -1,0 +1,52 @@
+package StudyJSON;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import practiceJSON.Grade;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+/*
+ * Gson:Google公司：
+ * 	    使用步骤：
+ * 		1 初始化Gson对象
+ * 		2 调用Gson对象的fromJson()方法，需要传入JSON字符串或是JsonElement对象
+ * 		3 使用返回的Java类
+ */
+public class TestGSON {
+
+	public static void main(String[] args) {
+//============简单的GSON解析方法=============================
+		String jsonStr = "{sid:1,sname:'zhangsan'}";
+		Gson gson = new Gson();
+		Student s = gson.fromJson(jsonStr, Student.class);
+		
+		System.out.println("简单GSON=="+s);
+		
+//==========较复杂的GSON解析方法=====================================================
+//		String jsonStr2 = "[{sid:1,sname:'zhangsan'},{sid:2,sname:'lisi'}]";
+//		//
+//		JsonParser parser = new JsonParser();
+//		List<Student> list = new ArrayList<>();
+//		//解析为JsonElement对象，对应外层的[]
+//		JsonElement element = parser.parse(jsonStr2);
+//		if(element.isJsonArray()){
+//			JsonArray object = element.getAsJsonArray();
+//			for(JsonElement jo:object){
+//				list.add(gson.fromJson(jo, Student.class));			
+//			}
+//		}
+//		for(Student st:list){
+//			
+//			System.out.println("较复杂GSON=="+st);
+//		}
+//========复杂的GSON解析=============================================
+		String jsonStr3 = "{cName:'Android1503',cRoom:'01',student:[{sid:1,sname:'zhangsan'},{sid:2,sname:'lisi'}]}";
+		Grade gr = gson.fromJson(jsonStr3, Grade.class);
+		
+		System.out.println("复杂GSON=="+gr);
+	}
+}

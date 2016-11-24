@@ -1,0 +1,59 @@
+package studyInterface;
+
+
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+
+/*
+ * 图片下载的工具类
+ */
+public class HttpUtilsCilent {
+	public static void download(String path,Callback back){
+		//开始执行下载
+		new Thread(){
+			@Override
+			public void run() {
+				BufferedReader br = null;
+				CloseableHttpClient httpclient = HttpClients.createDefault();
+				try {
+					HttpGet httpget = new HttpGet("http://localhost:8080/2016-first-homework/MyLoginServlet?user=admin&&pass=1234");
+					HttpResponse response = httpclient.execute(httpget);
+					
+					int code = response.getStatusLine().getStatusCode();
+					if(code==HttpStatus.SC_OK){
+						HttpEntity entity = response.getEntity();
+						Thread.sleep(3000);
+						//开始回调通知者
+						back.send(entity.getContent());
+					}
+				} catch (MalformedURLException e) {
+					// TODO 自动生成的 catch 块
+					e.printStackTrace();
+				} catch (ProtocolException e) {
+					// TODO 自动生成的 catch 块
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO 自动生成的 catch 块
+					e.printStackTrace();
+				} catch (InterruptedException e) {
+					// TODO 自动生成的 catch 块
+					e.printStackTrace();
+				}
+		
+			}
+		}.start();
+
+	}
+}

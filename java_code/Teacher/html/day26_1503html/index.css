@@ -1,0 +1,17 @@
+p{
+  color:grey;
+  font-size:30px;
+  background-color:yellow;
+  font-family:ºÚÌå;
+}
+img{
+  border:2px red solid;
+}
+
+.special{
+  font-style:italic;
+}
+
+#sole{
+  text-decoration:underline;
+}

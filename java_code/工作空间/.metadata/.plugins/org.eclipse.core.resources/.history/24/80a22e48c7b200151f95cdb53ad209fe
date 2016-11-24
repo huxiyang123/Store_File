@@ -1,0 +1,14 @@
+package study;
+/*
+ * ThreadLocal:
+ */
+public class TestThreadLocal {
+
+	public static void main(String[] args) {
+		
+	}
+	ThreadLocal<Integer> t = new ThreadLocal<Integer>(){
+		
+	};
+
+}

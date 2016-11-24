@@ -1,0 +1,9 @@
+package study;
+
+public class TestDownload {
+
+	public static void main(String[] args) {
+		URL url = new URL("http://localhost:8080/first/MyServlet");	
+	}
+
+}

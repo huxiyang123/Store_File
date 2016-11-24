@@ -1,0 +1,10 @@
+package study;/*
+/*
+ * 图片下载的工具类
+ */
+public class HttpUtils {
+	public void dowmload(String path, Callback back) {
+		// TODO 自动生成的方法存根
+
+	}
+}

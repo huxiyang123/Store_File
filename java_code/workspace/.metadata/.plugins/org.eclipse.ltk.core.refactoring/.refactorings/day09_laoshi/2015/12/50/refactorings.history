@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="将资源“day09_laoshi/day09_15031”重命名为“day09_1503”" description="重命名资源“day09_15031”" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="day09_15031" name="day09_1503" stamp="1449753130027" updateReferences="true"/>
+</session>

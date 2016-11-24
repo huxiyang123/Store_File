@@ -1,0 +1,16 @@
+package com.qf.loginServlet;
+
+import javax.servlet.http.HttpServlet;
+/*
+ * Servlet:是一个位于Servlet服务端的Java类，
+ * 
+ *   使用HttpServlet步骤：
+ *     1 创建继承HttpServlet的子类
+ *     2 根据需要，覆盖父类的doGet()和doPost()方法
+ *     3 注册Servlet：
+ *       1)
+ *       2)3)
+ */
+public class loginSverlet extends HttpServlet {
+
+}

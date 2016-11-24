@@ -1,0 +1,12 @@
+package study;
+/*
+ * ThreadLocal:
+ */
+public class TestThreadLocal {
+
+	public static void main(String[] args) {
+		
+
+	}
+
+}

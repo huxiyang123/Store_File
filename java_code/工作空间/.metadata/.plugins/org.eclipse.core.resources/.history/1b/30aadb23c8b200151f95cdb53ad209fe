@@ -1,0 +1,50 @@
+package homework;
+
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.SocketException;
+
+public class Server {
+
+	public static void main(String[] args) {
+		DatagramSocket ds = null;
+		DatagramPacket dp2 = null;
+		DatagramPacket dp1 = null;
+		
+		BufferedReader br = null;
+		try {
+			ds = new DatagramSocket(7777);
+
+			while (true) {
+				byte[] bs = new byte[1024];
+				dp1 = new DatagramPacket(bs, bs.length);
+				ds.receive(dp);
+				String str = new String(dp1.getData(), 0, dp1.getLength());
+				System.out.println("Client say " + str);
+
+				br = new BufferedReader(new InputStreamReader(
+						System.in));
+				String s = br.readLine();
+				dp2 = new DatagramPacket(s.getBytes(), 0, s.getBytes().length,
+						dp.getAddress(), dp.getPort());
+				ds.send(dp2);
+			}
+
+		} catch (SocketException e) {
+
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		} finally {
+			if (ds != null) {
+				ds.close();
+			}
+		}
+	}
+
+}

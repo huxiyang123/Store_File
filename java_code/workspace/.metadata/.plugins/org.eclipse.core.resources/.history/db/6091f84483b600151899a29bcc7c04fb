@@ -1,0 +1,18 @@
+package practiceJSON;
+
+import net.sf.json.JSONObject;
+
+
+public class TestJSONStudent {
+
+	public static void main(String[] args) {
+		String jsonc = "{cName:'Android1503',cRoom:'01',studetns:[{sid:1,sname:'zhangsan'},{sid:2,sname:'lisi'}]}";
+		//把jsonStr字符串转换为JSONObject对象
+		JSONObject jo = JSONObject.fromObject(jsonc);
+		//使用toBean()方法把JSONObject对象和Java类的class对象关联
+		Grade g = (Grade) JSONObject.toBean(jo, Grade.class);
+		System.out.println(g);
+		
+	}
+
+}

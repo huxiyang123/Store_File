@@ -1,0 +1,14 @@
+package study;
+/*
+ * URL:Universal Resource Locator统一资源定位符。
+ *   格式：协议：//hostname:port/文件夹/资源名称。
+ *   例如:http://www.sina.com:8088/news/newslist.html
+ */
+public class TestURL {
+
+	public static void main(String[] args) {
+		// TODO 自动生成的方法存根
+
+	}
+
+}

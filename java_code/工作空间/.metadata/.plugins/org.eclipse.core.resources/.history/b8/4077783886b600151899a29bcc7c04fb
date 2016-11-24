@@ -1,0 +1,55 @@
+package practiceJSON;
+
+import java.util.List;
+
+import StudyJSON.Student;
+
+public class Grade {
+	private String cname;
+	/**
+	 * @return cname
+	 */
+	public String getCname() {
+		return cname;
+	}
+	/* （非 Javadoc）
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Grade [cname=" + cname + ", croom=" + croom + ", list=" + list
+				+ "]";
+	}
+	/**
+	 * @param cname 要设置的 cname
+	 */
+	public void setCname(String cname) {
+		this.cname = cname;
+	}
+	/**
+	 * @return croom
+	 */
+	public int getCroom() {
+		return croom;
+	}
+	/**
+	 * @param croom 要设置的 croom
+	 */
+	public void setCroom(int croom) {
+		this.croom = croom;
+	}
+	/**
+	 * @return list
+	 */
+	public List<Student> getList() {
+		return list;
+	}
+	/**
+	 * @param list 要设置的 list
+	 */
+	public void setList(List<Student> list) {
+		this.list = list;
+	}
+	private int croom;
+	private List<Student> list;
+}

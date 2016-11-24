@@ -1,0 +1,9 @@
+package study;
+
+public class TestFluent {
+
+	public static void main(String[] args) {
+		Content content = Request.Get("http://10.12.152.65:8080/first/Login?user=admin&&pass=123456");
+	}
+
+}

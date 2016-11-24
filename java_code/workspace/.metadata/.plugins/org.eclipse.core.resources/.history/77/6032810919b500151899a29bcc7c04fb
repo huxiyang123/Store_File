@@ -1,0 +1,64 @@
+package study;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+
+
+
+/*
+ * HttpClient:
+ * 	功能：
+ * 		1 是增强版的HttpURLConnection
+ * 		2 是一个Client客户端
+ *  	3 不支持
+ */
+public class TestHttpClient {
+
+	public static void main(String[] args) {
+		BufferedReader br = null;
+		
+		try {
+			CloseableHttpClient httpclient = HttpClients.createDefault();
+//			HttpGet httpget = new HttpGet("http://10.12.152.65:8080/first/InfoServelt");
+			HttpGet httpget = new HttpGet("http://10.12.152.65:8080/first/Login?user=admin&&pass=123456");
+			CloseableHttpResponse response = httpclient.execute(httpget);
+			int code = response.getStatusLine().getStatusCode();
+			if(code==200){
+				HttpEntity entity = response.getEntity();
+				br = new BufferedReader(new InputStreamReader(entity.getContent()));
+				String str = null;
+				while((str=br.readLine())!=null){
+					System.out.println(str);
+				}
+			}
+		} catch (ClientProtocolException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		} catch (UnsupportedOperationException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		}
+		finally{
+			try {
+				if(br!=null)
+					br.close();
+			} catch (IOException e) {
+				// TODO 自动生成的 catch 块
+				e.printStackTrace();
+			}
+		}
+		
+	}
+
+}

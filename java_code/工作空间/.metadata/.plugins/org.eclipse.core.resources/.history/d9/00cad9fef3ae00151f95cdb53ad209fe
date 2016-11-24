@@ -1,0 +1,57 @@
+package com.homework;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class All {
+	private List<Number> numList = new ArrayList<>();
+	private int num;
+
+
+
+	public synchronized void get() {
+		for (int num = 1; num < 101; num++) {
+			if (num % 2 == 1) {
+//				Number nn = new Number(++num, "Single");
+//				numList.add(nn);
+				System.out.println(Thread.currentThread().getName() + "数字"
+						+ num);//numList.remove(0)
+				notifyAll();
+			} else {
+				try {
+					wait();
+				} catch (InterruptedException e) {
+					// TODO 自动生成的 catch 块
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	public synchronized void put() {
+		for (int num = 1; num < 101; num++) {
+			// System.out.println(num);
+
+			try {
+				Thread.currentThread().sleep(100);
+			} catch (InterruptedException e) {
+				// TODO 自动生成的 catch 块
+				e.printStackTrace();
+			}
+			if (num % 2 == 0) {
+				Number nn = new Number(++num, "Double");
+				numList.add(nn);
+				System.out.println(Thread.currentThread().getName() + "数字"
+						+ num);
+				notifyAll();
+			} else {
+				try {
+					wait();// 如果不执行则沉睡，如果执行 则唤醒
+				} catch (InterruptedException e) {
+					// TODO 自动生成的 catch 块
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+}

@@ -1,0 +1,31 @@
+package practice;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+public class sdgfasfasf {
+
+	public static void main(String[] args) {
+		try {
+			InputStream in = new FileInputStream("d:\\test\\截图.bmp");
+			
+			byte[] b = new byte[2024];
+			while(in.read(b)!=-1){
+				OutputStream os = new FileOutputStream("test.txt",true);
+				os.write(b);
+			}
+		} catch (FileNotFoundException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		}
+
+	}
+
+}

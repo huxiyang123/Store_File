@@ -1,0 +1,11 @@
+package study;
+
+public class TestCall implements Callback {
+
+	@Override
+	public void send(byte[] bs) {
+		// TODO 自动生成的方法存根
+
+	}
+
+}

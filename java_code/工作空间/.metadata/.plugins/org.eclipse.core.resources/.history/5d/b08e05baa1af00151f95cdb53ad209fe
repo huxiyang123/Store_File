@@ -1,0 +1,31 @@
+package study;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+public class Server1 {
+
+	public static void main(String[] args) {
+		ServerSocket ss = null;
+		Socket socket = null;
+		BufferedInputStream bis = null;
+		BufferedOutputStream bos = null;
+		BufferedWriter bw = null;
+		try {
+			ss = new ServerSocket(6666);
+			socket = ss.accept(); 
+			//保证一直有新的线程处理Socket
+			while(true){
+				
+			}
+			
+			
+			
+
+	}}
+
+}

@@ -1,0 +1,59 @@
+package study;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.SocketException;
+
+public class MyServer {
+
+	public static void main(String[] args) {
+		DatagramSocket ds = null;
+		BufferedWriter bw = null;
+		try {
+			ds = new DatagramSocket(5555);
+			bw = new BufferedWriter(new OutputStreamWriter(System.out));
+			byte[] by = new byte[1024];
+			DatagramPacket dp = new DatagramPacket(by,0,by.length);
+			
+			while(true){
+				ds.receive(dp);
+				String str = new String(dp.getData(),0,dp.getLength());
+				if(str.equals("over")){
+					break;
+				}		
+				bw.write(str);
+				bw.newLine();
+				bw.flush();
+			}
+			//添加响应信息
+			byte[] bs = "我是服务端，你的信息我已收到".getBytes();
+			DatagramPacket dp2 = new DatagramPacket(bs,0,bs.length,dp.getAddress(),5555);
+			ds.send(dp2);
+		} catch (SocketException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		}
+		finally{
+			try {
+				if(bw!=null)
+					bw.close();
+			} catch (IOException e) {
+				// TODO 自动生成的 catch 块
+				e.printStackTrace();
+			}
+			if(ds!=null)
+				ds.close();
+		}
+			
+		
+
+	}
+
+}

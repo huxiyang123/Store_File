@@ -1,0 +1,29 @@
+package study;
+
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+
+
+/*
+ * C/S------给post传递参数
+ */
+public class TestPractice {
+
+	public static void main(String[] args) {
+		BufferedReader br = null;
+		OutputStream os = null;
+		URL url = new URL("http://10.12.152.65:8080/first/Login");
+		HttpURLConnection huc = (HttpURLConnection) url.openConnection();
+		huc.setRequestMethod("POST");
+		huc.setDoOutput(true);
+		
+		String params = "user=admin&&pass=123456";
+		
+		os = huc.getOutputStream();
+		os.write(params.getbyte());
+		
+		
+	}
+
+}

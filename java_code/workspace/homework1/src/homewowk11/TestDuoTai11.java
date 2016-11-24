@@ -1,0 +1,82 @@
+package homewowk11;
+/*
+ *   1 使用java多态机制模拟实现以下功能：
+  电脑：可以使用U口设备，方法：设备工作。。。
+  USB设备：相机，鼠标，键盘，U盘。。。
+   示例代码：
+   电脑类：Computer：
+     方法：插入U口设备工作。
+	public void plugIn(....){	}
+   接口：USB：start(),end(),
+ */
+public class TestDuoTai11 {
+	public static void main(String[] args) {
+		Computer c = new Computer();
+		
+		c.plugIn(new Keyboard());
+		
+		c.plugIn(new Camera());
+		
+		c.plugIn(new Mouse());
+		
+	}	
+}
+class Computer{
+	public void plugIn(USB u){
+		u.start();
+		u.end();
+	}
+}
+//鼠标类
+class Mouse implements USB{
+
+	@Override
+	public void start() {
+		System.out.println("鼠标加载中，请稍后 !");
+		
+	}
+
+	@Override
+	public void end() {
+		System.out.println("鼠标加载完毕，可以开始工作。。。。。");
+		
+	}
+	
+}
+//键盘类
+class Keyboard implements USB{
+
+	@Override
+	public void start() {
+		System.out.println("键盘加载中，请稍后 !");
+		
+	}
+
+	@Override
+	public void end() {
+		System.out.println("键盘加载完毕，可以开始工作。。。。。");
+		
+	}
+	
+}
+//照相机类
+class Camera implements USB{
+
+	@Override
+	public void start() {
+		System.out.println("照相机加载中，请稍后 !");
+		
+	}
+
+	@Override
+	public void end() {
+		System.out.println("照相机加载完毕，可以开始工作。。。。。");
+		
+	}
+	
+}
+
+interface USB{
+	void start();
+	void end();
+}

@@ -1,0 +1,40 @@
+package study;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+/*
+ * Tcp/Ip服务端的编程
+ * 
+ * 步骤：
+ * 	1 创建客户端Socket对象，传入对应的InetAddress和port参数，相当于和服务器建立连接。
+ * 	2 根据需要调用Socket
+ */
+public class Server {
+	public static void main(String[] args) {
+		InputStream is = null;
+		ServerSocket ss = null;
+		Socket s = null;
+		try {
+			ss = new ServerSocket(8888); 
+			s = ss.accept();
+			is = s.getInputStream();
+			int len = 0;
+			byte[] bs = new byte[1024];
+			while((len =is.read(bs))!=-1){
+				String temp = new String(bs,0,len);
+				System.out.println(temp);
+			}
+		} catch (IOException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		}
+		finally{
+			is.close();
+			s.close();
+			ss.close();
+		}
+	}
+}

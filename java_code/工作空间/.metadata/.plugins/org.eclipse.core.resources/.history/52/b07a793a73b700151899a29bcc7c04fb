@@ -1,0 +1,27 @@
+package homework;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+
+import com.alibaba.fastjson.JSONObject;
+import com.google.gson.JsonObject;
+
+public class TestCountry {
+
+	public static void main(String[] args) {
+		BufferedReader br = null;
+		StringBuilder sb = new StringBuilder();
+		br = new BufferedReader(new FileReader("20160109作业-胡喜洋.txt"));
+		String temp = null;
+		while((temp=br.readLine())!=null){
+			sb.append(temp);
+		}
+		String  str = sb.toString();
+		str.replace("城市代码", "a").replace("省", "b").replace("市名", "c").replace("市", "d").replace("编码", "f");
+		Country coun = JSONObject.parseObject(str, Country.class);
+		System.out.println();
+		//coun.replace("城市代码", "a").replace("省", "b").replace("市名", "c").replace("市", "d").replace("编码", "f");
+
+	}
+
+}

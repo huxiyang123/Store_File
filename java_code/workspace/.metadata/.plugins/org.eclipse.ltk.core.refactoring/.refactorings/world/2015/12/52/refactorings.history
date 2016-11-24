@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="将“TestOutIO.java”移至“world”" description="将“TestOutIO.java”移至“world”" destination="/world" element1="/day23_1503/TestOutIO.java" flags="7" id="org.eclipse.ltk.core.refactoring.move.resources" resources="1" stamp="1450948385875" updateReferences="true"/>
+</session>

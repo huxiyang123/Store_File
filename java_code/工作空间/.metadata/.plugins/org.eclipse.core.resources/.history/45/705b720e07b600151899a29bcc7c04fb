@@ -1,0 +1,37 @@
+package homework;
+
+public class Course {
+	private int no;
+	private String name1;
+	/**
+	 * @return no
+	 */
+	public int getNo() {
+		return no;
+	}
+	/* （非 Javadoc）
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Course [no=" + no + ", name1=" + name1 + "]";
+	}
+	/**
+	 * @param no 要设置的 no
+	 */
+	public void setNo(int no) {
+		this.no = no;
+	}
+	/**
+	 * @return name1
+	 */
+	public String getName1() {
+		return name1;
+	}
+	/**
+	 * @param name1 要设置的 name1
+	 */
+	public void setName1(String name1) {
+		this.name1 = name1;
+	}
+}

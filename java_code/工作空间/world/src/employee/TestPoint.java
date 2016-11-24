@@ -1,0 +1,9 @@
+package employee;
+
+public class TestPoint {
+	public static void main(String[] args) {
+		Point p = new Point(0,0,0);
+		Point p1 = new Point(2,1,1);
+		p.distance(p1);
+	}
+}

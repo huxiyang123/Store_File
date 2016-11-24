@@ -1,0 +1,14 @@
+package StudyJSON;
+
+import com.alibaba.fastjson.JSONObject;
+
+/*
+ * FastJson:Alibaba¹«Ë¾
+ */
+public class TestFastASTJson {
+	public static void main(String[] args) {
+		String jsonStr = "{sid:1,sname:'zhangsan'}";
+		Student  s = JSONObject.parseObject(jsonStr,Student.class);
+		System.out.println(s);
+	}
+}

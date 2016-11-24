@@ -1,0 +1,23 @@
+package study;
+
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+
+
+
+/*
+ * HttpClient:
+ * 	功能：
+ * 		1 是增强版的HttpURLConnection
+ * 		2 是一个Client客户端
+ *  	3 不支持
+ */
+public class TestHttpClient {
+
+	public static void main(String[] args) {
+		CloseableHttpClient httpclient = HttpClients.createDefault();
+		HttpGet httpget = new HttpGet("http://10.12.152.65:8080/first/image");
+	}
+
+}

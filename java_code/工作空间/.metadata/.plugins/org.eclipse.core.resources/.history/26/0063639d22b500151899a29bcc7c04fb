@@ -1,0 +1,18 @@
+package study;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.fluent.Content;
+import org.apache.http.client.fluent.Request;
+
+public class TestFluent {
+
+	public static void main(String[] args) {
+		Content content = null;
+		OutputStream os = null;
+		content = Request.Get("http://10.12.152.65:8080/first/images/fish.jpg").execute();
+		os = new FileOutputStream("2.JPG");
+	}
+
+}

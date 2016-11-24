@@ -1,0 +1,58 @@
+package study;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
+
+import org.omg.CORBA_2_3.portable.OutputStream;
+
+public class TestDownload {
+
+	public static void main(String[] args) { 
+		InputStream is = null;
+		OutputStream os = null;
+		try {
+			URL url = new URL("http://localhost:8080/first/image/287184.jpg");
+			HttpURLConnection huc = (HttpURLConnection) url.openConnection();
+			huc.setRequestMethod("GET");
+			if(huc.getResponseCode()==HttpURLConnection.HTTP_OK){
+				is = huc.getInputStream();
+				os = new FileOutputStream("1.jpg");
+				byte[] bs = new byte[1024];
+				int len = 0;
+				while((len=is.read(bs))!=-1){
+					os.write(bs,0,len);
+				}
+			}
+		} catch (MalformedURLException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		} catch (ProtocolException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		}
+		finally{
+			try {
+				if(os!=null)
+					os.close();
+				if(is!=null)
+					is.close();
+			} catch (IOException e) {
+				// TODO 自动生成的 catch 块
+				e.printStackTrace();
+			}
+		}
+	}
+
+}

@@ -1,0 +1,10 @@
+package homework1;
+
+public class MyQueue<T> {
+
+	public void add(Car c) {
+		// TODO 自动生成的方法存根
+		
+	}
+
+}

@@ -1,0 +1,6 @@
+package StudyJSON;
+
+public class Grade {
+	private String cname;
+	private int croom;
+}

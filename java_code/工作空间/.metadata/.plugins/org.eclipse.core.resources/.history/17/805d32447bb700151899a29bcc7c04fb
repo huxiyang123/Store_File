@@ -1,0 +1,38 @@
+package homework;
+
+public class City {
+	private String cityName;
+	private String cityNumber;
+	/* （非 Javadoc）
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "City [cityName=" + cityName + ", cityNumber=" + cityNumber
+				+ "]";
+	}
+	/**
+	 * @return cityName
+	 */
+	public String getCityName() {
+		return cityName;
+	}
+	/**
+	 * @param cityName 要设置的 cityName
+	 */
+	public void setCityName(String cityName) {
+		this.cityName = cityName;
+	}
+	/**
+	 * @return cityNumber
+	 */
+	public String getCityNumber() {
+		return cityNumber;
+	}
+	/**
+	 * @param cityNumber 要设置的 cityNumber
+	 */
+	public void setCityNumber(String cityNumber) {
+		this.cityNumber = cityNumber;
+	}
+}

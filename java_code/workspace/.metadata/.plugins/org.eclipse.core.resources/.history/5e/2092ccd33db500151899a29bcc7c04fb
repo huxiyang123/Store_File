@@ -1,0 +1,29 @@
+package homework;
+
+
+import java.util.ArrayList;
+
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+
+/*
+ * POST步骤：
+      1 创建HttpClient对象
+      2 创建HttpPost对象，构造方法中传入URL地址，URL地址后无需参数添加
+      3 使用HttpPost对象的setEntity()方法，传入参数对象。
+      4 使用HttpClient对象的execute()方法，把HttpPost对象作为实参传入，返回HttpResponse对象
+      5 判断返回状态码，通常是HttpStatus.SC_OK的情况下，进行处理
+      6 使用HttpResponse对象的getEntity()获得I/O流
+      7 关闭I/O流和HttpResponse对象
+ */
+public class TestHttpClientPost {
+
+	public static void main(String[] args) {
+		CloseableHttpClient httpclient = HttpClients.createDefault();
+		HttpPost httppost = new HttpPost("http://localhost:8080/2016-first-homework/MyLoginServlet?user=admin&&pass=123456");
+		
+		List<NameValuePair> list = new ArrayList<>();
+		httppost.setEntity(entity);
+
+}

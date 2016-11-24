@@ -1,0 +1,15 @@
+package StudyJSON;
+
+import com.google.gson.Gson;
+
+public class TestGSON {
+
+	public static void main(String[] args) {
+		String jsonStr = "{sid:1,sname:'zhangsan'}";
+		Gson gson = new Gson();
+		Student s = gson.fromJson(jsonStr, Student.class);
+		
+		System.out.println(s);
+	}
+
+}

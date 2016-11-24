@@ -1,0 +1,61 @@
+package pracice;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+
+import java.net.Socket;
+import java.net.UnknownHostException;
+
+/*
+ * 拷贝客户端 的图片到服务器
+ * 	步骤：
+ * 	  1 创建客户端Socket对象，
+ * 	  2 使用缓冲字节输入流读取图片
+ * 	  3 获取Socket的输出流对象，在读图片的同时网服务端I/O中写出
+ * 	  4 关闭Socket I/O对象
+ */
+public class Client {
+	public static void main(String[] args) {
+		Socket socket = null;
+		BufferedInputStream bis = null;
+		BufferedOutputStream bos = null;
+		try {
+			socket = new Socket("192.10.12.23",9999);
+			bis = new BufferedInputStream(new FileInputStream("D:\\test\\截图.bmp"));
+			bos = new BufferedOutputStream(socket.getOutputStream());
+			int len = 0;
+			byte[] by = new byte[1024];
+			while((len=bis.read(by))!=-1){
+				bos.write(by,0,len);
+				bos.flush();
+			}
+		} catch (UnknownHostException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		}
+		finally{
+			try {
+				if(bos!=null)
+					bos.close();
+				if(bis!=null)
+					bis.close();
+				if(socket!=null)
+					socket.close();
+			} catch (IOException e) {
+				// TODO 自动生成的 catch 块
+				e.printStackTrace();
+			}
+		}
+		
+	}
+}

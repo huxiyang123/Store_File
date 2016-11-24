@@ -1,0 +1,12 @@
+package StudyJSON;
+/*
+ * ½âÎöÉÔ¸´ÔÓµÄJSON×Ö·û
+ */
+public class TestOtherJson {
+
+	public static void main(String[] args) {
+		String jsonStr = "{student:[{sid:1,sname:'zhangsan'},{sid:2,sname:'lisi'}]}";
+
+	}
+
+}

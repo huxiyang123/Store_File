@@ -1,0 +1,58 @@
+package study;
+
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
+import java.net.UnknownHostException;
+
+/*
+ * 客户端使用UDP协议发送数据到服务端
+ * 	步骤：
+ * 		1 创建无参构造方法的DatagramSocket的对象
+ * 		2 创建DatagramPacket对象，必须包含内容 接收方
+ */
+public class Client {
+	public static void main(String[] args) {
+		DatagramSocket ds = null;
+		//DatagramSocket ds2 = null;
+		
+		try {
+			ds = new DatagramSocket();
+			byte[] buf = "hello 元旦快乐！".getBytes();
+			//不用关
+			DatagramPacket dp = new DatagramPacket(buf,buf.length,InetAddress.getByName("10.12.152.59"),3333);
+			ds.send(dp);
+			//客户端接受服务端响应信息
+			//创建新的Socket，因为接收需要端口，或者在发送时候Socket添加端口号
+		//	ds2 = new DatagramSocket(3333);
+			byte[] bs = new byte[1024];
+			//创建空的DatagramPacket准备接收发送的数据
+			DatagramPacket dp2 = new DatagramPacket(bs,0,bs.length);
+			//接收的数据放在DatagramPacket对象中
+			ds.receive(dp2);
+			String str = new String(dp2.getData(),0,dp2.getLength());
+			System.out.println("来自"+dp2.getAddress()+"的回复"+str);
+			
+		} catch (SocketException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		} catch (UnknownHostException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		}
+		finally{
+			try {
+				if(ds!=null)
+					ds.close();
+			} catch (Exception e) {
+				// TODO 自动生成的 catch 块
+				e.printStackTrace();
+			}
+		}
+	}
+}

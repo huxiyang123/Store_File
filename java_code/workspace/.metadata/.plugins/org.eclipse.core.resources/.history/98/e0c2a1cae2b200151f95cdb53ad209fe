@@ -1,0 +1,12 @@
+package homework;
+/*
+ *  1 使用TCP/IP协议从客户端发送一张图片给服务端，服务端保存后发送响应信息。
+ */
+public class TCPServer {
+
+	public static void main(String[] args) {
+		// TODO 自动生成的方法存根
+
+	}
+
+}

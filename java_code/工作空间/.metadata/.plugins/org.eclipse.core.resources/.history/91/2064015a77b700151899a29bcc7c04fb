@@ -1,0 +1,27 @@
+package homework;
+
+public class Country {
+	private List<CityCode> citycode;
+
+	/* （非 Javadoc）
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Country [citycode=" + citycode + "]";
+	}
+
+	/**
+	 * @return citycode
+	 */
+	public CityCode getCitycode() {
+		return citycode;
+	}
+
+	/**
+	 * @param citycode 要设置的 citycode
+	 */
+	public void setCitycode(CityCode citycode) {
+		this.citycode = citycode;
+	}
+}

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<books>
+    <!--book元素定义  -->
+ 	<book type="computer">
+ 	    <id>001</id>
+ 	    <name>ANDRIOD</name>
+ 	    <price>32.3</price>	    
+	</book> 
+	<book type="history">
+ 	    <id>002</id>
+ 	    <name>ANDRIOD start</name>
+ 	    <price>23.3</price>
+	</book> 
+ </books>
+    

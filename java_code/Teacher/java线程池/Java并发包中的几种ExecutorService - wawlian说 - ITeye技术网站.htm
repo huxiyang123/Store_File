@@ -1,0 +1,541 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0037)http://wawlian.iteye.com/blog/1315256 -->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" dir="ltr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script src="./Java并发包中的几种ExecutorService - wawlian说 - ITeye技术网站_files/hm.js"></script>
+    
+    <title>Java并发包中的几种ExecutorService - wawlian说 - ITeye技术网站</title>
+    <meta name="description" content="    1.CachedThreadPool      CachedThreadPool首先会按照需要创建足够多的线程来执行任务(Task)。随着程序执行的过程，有的线程执行完了任务，可以被重新循环使用时，才不再创建新的线程来执行任务。我们采用《Thinking In Java》中的例子来分析。      首先，任务定义如下(实现了Runnable接口，并且复写了run方法)：     packag ...">
+    <meta name="keywords" content="ExecutorService Java并发包中的几种ExecutorService">
+    <link rel="shortcut icon" href="http://wawlian.iteye.com/images/favicon.ico" type="image/x-icon">
+    <link rel="search" type="application/opensearchdescription+xml" href="http://wawlian.iteye.com/open_search.xml" title="ITeye">
+    <link href="http://wawlian.iteye.com/rss" rel="alternate" title="wawlian说" type="application/rss+xml">
+    <link href="./Java并发包中的几种ExecutorService - wawlian说 - ITeye技术网站_files/blog.css" media="screen" rel="stylesheet" type="text/css">
+<link href="./Java并发包中的几种ExecutorService - wawlian说 - ITeye技术网站_files/blue.css" media="screen" rel="stylesheet" type="text/css">
+    <script type="text/javascript" async="" src="./Java并发包中的几种ExecutorService - wawlian说 - ITeye技术网站_files/ga.js"></script><script src="./Java并发包中的几种ExecutorService - wawlian说 - ITeye技术网站_files/application.js" type="text/javascript"></script>
+    <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-535605-1']);
+  _gaq.push(['_setDomainName', 'iteye.com']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+
+      <link href="./Java并发包中的几种ExecutorService - wawlian说 - ITeye技术网站_files/SyntaxHighlighter.css" media="screen" rel="stylesheet" type="text/css">
+  <script src="./Java并发包中的几种ExecutorService - wawlian说 - ITeye技术网站_files/shCoreCommon.js" type="text/javascript"></script>
+<script src="./Java并发包中的几种ExecutorService - wawlian说 - ITeye技术网站_files/hotkey.js" type="text/javascript"></script>
+  <script src="./Java并发包中的几种ExecutorService - wawlian说 - ITeye技术网站_files/code_favorites.js" type="text/javascript"></script>
+<script src="./Java并发包中的几种ExecutorService - wawlian说 - ITeye技术网站_files/weiboshare.js" type="text/javascript"></script>
+  <style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style></head>
+  <body style="">
+    <div id="header">
+      <div id="blog_site_nav">
+  <a href="http://www.iteye.com/" class="homepage">首页</a>
+  <a href="http://www.iteye.com/news">资讯</a>
+  <a href="http://www.iteye.com/magazines">精华</a>
+  <a href="http://www.iteye.com/forums">论坛</a>
+  <a href="http://www.iteye.com/ask">问答</a>
+  <a href="http://www.iteye.com/blogs">博客</a>
+  <a href="http://www.iteye.com/blogs/subjects">专栏</a>
+  <a href="http://www.iteye.com/groups">群组</a>
+  <a href="http://wawlian.iteye.com/blog/1315256#" onclick="return false;" id="msna"><u>更多</u> <small>▼</small></a>
+  <div class="quick_menu" style="display:none;">
+    <a target="_blank" href="http://job.iteye.com/iteye">招聘</a>
+    <a href="http://www.iteye.com/search">搜索</a>
+  </div>
+</div>
+
+      <div id="user_nav">
+      <a href="http://wawlian.iteye.com/login" class="welcome" title="登录">您还未登录 !</a>
+    <a href="http://wawlian.iteye.com/login">登录</a>
+    <a href="http://wawlian.iteye.com/signup" class="nobg">注册</a>
+  </div>
+
+    </div>
+
+    <div id="page">
+      <div id="branding" class="clearfix">
+        <div id="blog_name">
+          <h1><a href="http://wawlian.iteye.com/">wawlian说</a></h1>
+        </div>
+        <div id="fd"></div>
+        <div id="blog_navbar">
+          <ul>
+            <li class="blog_navbar_for"><a href="http://wawlian.iteye.com/"><strong>博客</strong></a></li>
+            <li><a href="http://wawlian.iteye.com/weibo">微博</a></li>
+            <li><a href="http://wawlian.iteye.com/album">相册</a></li>
+            <li><a href="http://wawlian.iteye.com/link">收藏</a></li>
+            <li><a href="http://wawlian.iteye.com/blog/guest_book">留言</a></li>
+            <li><a href="http://wawlian.iteye.com/blog/profile">关于我</a></li>
+          </ul>
+    
+          <div class="search">
+            <form action="http://wawlian.iteye.com/blog/search" method="get">
+              <input class="search_text" id="query" name="query" style="margin-left: 10px;width: 110px;" type="text" value="">
+              <input class="submit_search" type="submit" value="">
+            </form>
+          </div> 
+          <div id="fd"></div>         
+        </div>
+      </div>
+      
+      <div id="content" class="clearfix">
+        <div id="main">
+          
+
+
+
+          
+
+
+<div class="h-entry" style="display:none">
+  <a href="http://wawlian.iteye.com/" class="p-author" target="_blank">wawlian</a>
+</div>
+
+
+<div class="blog_main">
+  <div class="blog_title">
+    <h3>
+      <a href="./Java并发包中的几种ExecutorService - wawlian说 - ITeye技术网站_files/Java并发包中的几种ExecutorService - wawlian说 - ITeye技术网站.htm">Java并发包中的几种ExecutorService</a>
+      <em class="actions">      </em>
+    </h3>
+    <ul class="blog_categories"><strong>博客分类：</strong> <li><a href="http://wawlian.iteye.com/category/149371">Java</a></li> </ul>
+        <div class="news_tag"><a href="http://www.iteye.com/blogs/tag/ExecutorService">ExecutorService</a>&nbsp;</div>
+  </div>
+
+  <div id="blog_content" class="blog_content">
+    <p>&nbsp;</p>
+<p style="font-family: Simsun; font-size: medium;">&nbsp;1.CachedThreadPool</p>
+<p style="font-family: Simsun; font-size: medium;">&nbsp; &nbsp; CachedThreadPool首先会按照需要创建足够多的线程来执行任务(Task)。随着程序执行的过程，有的线程执行完了任务，可以被重新循环使用时，才不再创建新的线程来执行任务。我们采用《Thinking In Java》中的例子来分析。</p>
+<p style="font-family: Simsun; font-size: medium;">&nbsp; &nbsp; 首先，任务定义如下(实现了Runnable接口，并且复写了run方法)：</p>
+<p style="font-family: Simsun; font-size: medium;">&nbsp;</p>
+<div class="dp-highlighter" id=""><div class="bar"><div class="tools">Java代码 <embed wmode="transparent" src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=package%20net.jerryblog.concurrent%3B%20%0Apublic%20class%20LiftOff%20implements%20Runnable%7B%20%0A%20%20%20%20protected%20int%20countDown%20%3D%2010%3B%20%2F%2FDefault%20%0A%20%20%20%20private%20static%20int%20taskCount%20%3D%200%3B%20%0A%20%20%20%20private%20final%20int%20id%20%3D%20taskCount%2B%2B%3B%20%20%0A%20%20%20%20public%20LiftOff()%20%7B%7D%20%0A%20%20%20%20public%20LiftOff(int%20countDown)%20%7B%20%0A%20%20%20%20%20%20%20%20this.countDown%20%3D%20countDown%3B%20%0A%20%20%20%20%7D%20%0A%20%20%20%20public%20String%20status()%20%7B%20%0A%20%20%20%20%20%20%20%20return%20%22%23%22%20%2B%20id%20%2B%20%22(%22%20%2B%20%0A%20%20%20%20%20%20%20%20%20%20%20%20(countDown%20%3E%200%20%3F%20countDown%20%3A%20%22LiftOff!%22)%20%2B%20%22)%20%22%3B%20%0A%20%20%20%20%7D%20%0A%20%20%20%20%40Override%20%0A%20%20%20%20public%20void%20run()%20%7B%20%0A%20%20%20%20%20%20%20%20while(countDown--%20%3E%200)%20%7B%20%0A%20%20%20%20%20%20%20%20%20%20%20%20System.out.print(status())%3B%20%0A%20%20%20%20%20%20%20%20%20%20%20%20Thread.yield()%3B%20%0A%20%20%20%20%20%20%20%20%7D%20%0A%20%20%20%20%20%20%20%20%20%0A%20%20%20%20%7D%20%20%20%20%0A%7D%20" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer">&nbsp;<a href="javascript:void()" title="收藏这段代码" onclick="code_favorites_do_favorite(this);return false;"><img class="star" src="./Java并发包中的几种ExecutorService - wawlian说 - ITeye技术网站_files/icon_star.png" alt="收藏代码"><img class="spinner" src="./Java并发包中的几种ExecutorService - wawlian说 - ITeye技术网站_files/spinner.gif" style="display:none"></a></div></div><ol start="1" class="dp-j"><li><span><span class="keyword">package</span><span>&nbsp;net.jerryblog.concurrent;&nbsp;&nbsp;&nbsp;</span></span></li><li><span><span class="keyword">public</span><span>&nbsp;</span><span class="keyword">class</span><span>&nbsp;LiftOff&nbsp;</span><span class="keyword">implements</span><span>&nbsp;Runnable{&nbsp;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">protected</span><span>&nbsp;</span><span class="keyword">int</span><span>&nbsp;countDown&nbsp;=&nbsp;</span><span class="number">10</span><span>;&nbsp;</span><span class="comment">//Default&nbsp;</span><span>&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private</span><span>&nbsp;</span><span class="keyword">static</span><span>&nbsp;</span><span class="keyword">int</span><span>&nbsp;taskCount&nbsp;=&nbsp;</span><span class="number">0</span><span>;&nbsp;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private</span><span>&nbsp;</span><span class="keyword">final</span><span>&nbsp;</span><span class="keyword">int</span><span>&nbsp;id&nbsp;=&nbsp;taskCount++;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span><span>&nbsp;LiftOff()&nbsp;{}&nbsp;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span><span>&nbsp;LiftOff(</span><span class="keyword">int</span><span>&nbsp;countDown)&nbsp;{&nbsp;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span><span>.countDown&nbsp;=&nbsp;countDown;&nbsp;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span><span>&nbsp;String&nbsp;status()&nbsp;{&nbsp;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span><span>&nbsp;</span><span class="string">"#"</span><span>&nbsp;+&nbsp;id&nbsp;+&nbsp;</span><span class="string">"("</span><span>&nbsp;+&nbsp;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(countDown&nbsp;&gt;&nbsp;<span class="number">0</span><span>&nbsp;?&nbsp;countDown&nbsp;:&nbsp;</span><span class="string">"LiftOff!"</span><span>)&nbsp;+&nbsp;</span><span class="string">")&nbsp;"</span><span>;&nbsp;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="annotation">@Override</span><span>&nbsp;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span><span>&nbsp;</span><span class="keyword">void</span><span>&nbsp;run()&nbsp;{&nbsp;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">while</span><span>(countDown--&nbsp;&gt;&nbsp;</span><span class="number">0</span><span>)&nbsp;{&nbsp;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.print(status());&nbsp;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Thread.yield();&nbsp;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li><li><span>}&nbsp;&nbsp;&nbsp;</span></li></ol></div><pre name="code" class="java" codeable_id="1315256" codeable_type="Blog" source_url="http://wawlian.iteye.com/blog/1315256" pre_index="0" title="Java并发包中的几种ExecutorService" style="display: none;">package net.jerryblog.concurrent; 
+public class LiftOff implements Runnable{ 
+    protected int countDown = 10; //Default 
+    private static int taskCount = 0; 
+    private final int id = taskCount++;  
+    public LiftOff() {} 
+    public LiftOff(int countDown) { 
+        this.countDown = countDown; 
+    } 
+    public String status() { 
+        return "#" + id + "(" + 
+            (countDown &gt; 0 ? countDown : "LiftOff!") + ") "; 
+    } 
+    @Override 
+    public void run() { 
+        while(countDown-- &gt; 0) { 
+            System.out.print(status()); 
+            Thread.yield(); 
+        } 
+         
+    }    
+} </pre>
+<p style="font-family: Simsun; font-size: medium;">&nbsp; &nbsp; 采用CachedThreadPool方式执行编写的客户端程序如下：&nbsp;</p>
+<p style="font-family: Simsun; font-size: medium;">&nbsp;</p>
+<div class="dp-highlighter" id=""><div class="bar"><div class="tools">Java代码 <embed wmode="transparent" src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=package%20net.jerryblog.concurrent%3B%20%0Aimport%20java.util.concurrent.ExecutorService%3B%20%0Aimport%20java.util.concurrent.Executors%3B%20%0Apublic%20class%20CachedThreadPool%20%7B%20%0A%20%20%20%20public%20static%20void%20main(String%5B%5D%20args)%20%7B%20%0A%20%20%20%20%20%20%20%20ExecutorService%20exec%20%3D%20Executors.newCachedThreadPool()%3B%20%0A%20%20%20%20%20%20%20%20for(int%20i%20%3D%200%3B%20i%20%3C%2010%3B%20i%2B%2B)%20%7B%20%0A%20%20%20%20%20%20%20%20%20%20%20%20exec.execute(new%20LiftOff())%3B%20%0A%20%20%20%20%20%20%20%20%7D%20%0A%20%20%20%20%20%20%20%20exec.shutdown()%3B%20%20%20%20%20%0A%20%20%20%20%7D%20%0A%7D%20" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer">&nbsp;<a href="javascript:void()" title="收藏这段代码" onclick="code_favorites_do_favorite(this);return false;"><img class="star" src="./Java并发包中的几种ExecutorService - wawlian说 - ITeye技术网站_files/icon_star.png" alt="收藏代码"><img class="spinner" src="./Java并发包中的几种ExecutorService - wawlian说 - ITeye技术网站_files/spinner.gif" style="display:none"></a></div></div><ol start="1" class="dp-j"><li><span><span class="keyword">package</span><span>&nbsp;net.jerryblog.concurrent;&nbsp;&nbsp;&nbsp;</span></span></li><li><span><span class="keyword">import</span><span>&nbsp;java.util.concurrent.ExecutorService;&nbsp;&nbsp;&nbsp;</span></span></li><li><span><span class="keyword">import</span><span>&nbsp;java.util.concurrent.Executors;&nbsp;&nbsp;&nbsp;</span></span></li><li><span><span class="keyword">public</span><span>&nbsp;</span><span class="keyword">class</span><span>&nbsp;CachedThreadPool&nbsp;{&nbsp;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span><span>&nbsp;</span><span class="keyword">static</span><span>&nbsp;</span><span class="keyword">void</span><span>&nbsp;main(String[]&nbsp;args)&nbsp;{&nbsp;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ExecutorService&nbsp;exec&nbsp;=&nbsp;Executors.newCachedThreadPool();&nbsp;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span><span>(</span><span class="keyword">int</span><span>&nbsp;i&nbsp;=&nbsp;</span><span class="number">0</span><span>;&nbsp;i&nbsp;&lt;&nbsp;</span><span class="number">10</span><span>;&nbsp;i++)&nbsp;{&nbsp;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;exec.execute(<span class="keyword">new</span><span>&nbsp;LiftOff());&nbsp;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;exec.shutdown();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;</span></li><li><span>}&nbsp;&nbsp;&nbsp;</span></li></ol></div><pre name="code" class="java" codeable_id="1315256" codeable_type="Blog" source_url="http://wawlian.iteye.com/blog/1315256" pre_index="1" title="Java并发包中的几种ExecutorService" style="display: none;">package net.jerryblog.concurrent; 
+import java.util.concurrent.ExecutorService; 
+import java.util.concurrent.Executors; 
+public class CachedThreadPool { 
+    public static void main(String[] args) { 
+        ExecutorService exec = Executors.newCachedThreadPool(); 
+        for(int i = 0; i &lt; 10; i++) { 
+            exec.execute(new LiftOff()); 
+        } 
+        exec.shutdown();     
+    } 
+} </pre>
+<p>
+&nbsp;上面的程序中，有10个任务，采用CachedThreadPool模式，exec没遇到一个LiftOff的对象(Task)，就会创建一个线程来处理任务。现在假设遇到到第4个任务时，之前用于处理第一个任务的线程已经执行完成任务了，那么不会创建新的线程来处理任务，而是使用之前处理第一个任务的线程来处理这第4个任务。接着如果遇到第5个任务时，前面那些任务都还没有执行完，那么就会又新创建线程来执行第5个任务。否则，使用之前执行完任务的线程来处理新的任务。
+</p>
+<p style="font-family: Simsun; font-size: medium;">2.FixedThreadPool</p>
+<p style="font-family: Simsun; font-size: medium;">&nbsp; &nbsp;&nbsp;&nbsp;FixedThreadPool模式会使用一个优先固定数目的线程来处理若干数目的任务。规定数目的线程处理所有任务，一旦有线程处理完了任务就会被用来处理新的任务(如果有的话)。这种模式与上面的CachedThreadPool是不同的，CachedThreadPool模式下处理一定数量的任务的线程数目是不确定的。而FixedThreadPool模式下<span style="color: #ff0000;">最多</span>
+的线程数目是一定的。</p>
+<p style="font-family: Simsun; font-size: medium;">&nbsp; &nbsp; 采用FixedThreadPool模式编写客户端程序如下：</p>
+<p style="font-family: Simsun; font-size: medium;">&nbsp;</p>
+<div class="dp-highlighter" id=""><div class="bar"><div class="tools">Java代码 <embed wmode="transparent" src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=package%20net.jerryblog.concurrent%3B%20%0Aimport%20java.util.concurrent.ExecutorService%3B%20%0Aimport%20java.util.concurrent.Executors%3B%20%0Apublic%20class%20FixedThreadPool%20%7B%20%0A%20%20%20%20public%20static%20void%20main(String%5B%5D%20args)%20%7B%0A%20%20%20%20%20%20%20%20%2F%2F%E4%B8%89%E4%B8%AA%E7%BA%BF%E7%A8%8B%E6%9D%A5%E6%89%A7%E8%A1%8C%E4%BA%94%E4%B8%AA%E4%BB%BB%E5%8A%A1%20%0A%20%20%20%20%20%20%20%20ExecutorService%20exec%20%3D%20Executors.newFixedThreadPool(3)%3B%20%20%20%20%0A%20%20%20%20%20%20%20%20for(int%20i%20%3D%200%3B%20i%20%3C%205%3B%20i%2B%2B)%20%7B%20%0A%20%20%20%20%20%20%20%20%20%20%20%20exec.execute(new%20LiftOff())%3B%20%0A%20%20%20%20%20%20%20%20%7D%20%0A%20%20%20%20%20%20%20%20exec.shutdown()%3B%20%0A%20%20%20%20%7D%20%0A%7D%20" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer">&nbsp;<a href="javascript:void()" title="收藏这段代码" onclick="code_favorites_do_favorite(this);return false;"><img class="star" src="./Java并发包中的几种ExecutorService - wawlian说 - ITeye技术网站_files/icon_star.png" alt="收藏代码"><img class="spinner" src="./Java并发包中的几种ExecutorService - wawlian说 - ITeye技术网站_files/spinner.gif" style="display:none"></a></div></div><ol start="1" class="dp-j"><li><span><span class="keyword">package</span><span>&nbsp;net.jerryblog.concurrent;&nbsp;&nbsp;&nbsp;</span></span></li><li><span><span class="keyword">import</span><span>&nbsp;java.util.concurrent.ExecutorService;&nbsp;&nbsp;&nbsp;</span></span></li><li><span><span class="keyword">import</span><span>&nbsp;java.util.concurrent.Executors;&nbsp;&nbsp;&nbsp;</span></span></li><li><span><span class="keyword">public</span><span>&nbsp;</span><span class="keyword">class</span><span>&nbsp;FixedThreadPool&nbsp;{&nbsp;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span><span>&nbsp;</span><span class="keyword">static</span><span>&nbsp;</span><span class="keyword">void</span><span>&nbsp;main(String[]&nbsp;args)&nbsp;{&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">//三个线程来执行五个任务&nbsp;</span><span>&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ExecutorService&nbsp;exec&nbsp;=&nbsp;Executors.newFixedThreadPool(<span class="number">3</span><span>);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span><span>(</span><span class="keyword">int</span><span>&nbsp;i&nbsp;=&nbsp;</span><span class="number">0</span><span>;&nbsp;i&nbsp;&lt;&nbsp;</span><span class="number">5</span><span>;&nbsp;i++)&nbsp;{&nbsp;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;exec.execute(<span class="keyword">new</span><span>&nbsp;LiftOff());&nbsp;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;exec.shutdown();&nbsp;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;</span></li><li><span>}&nbsp;&nbsp;&nbsp;</span></li></ol></div><pre name="code" class="java" codeable_id="1315256" codeable_type="Blog" source_url="http://wawlian.iteye.com/blog/1315256" pre_index="2" title="Java并发包中的几种ExecutorService" style="display: none;">package net.jerryblog.concurrent; 
+import java.util.concurrent.ExecutorService; 
+import java.util.concurrent.Executors; 
+public class FixedThreadPool { 
+    public static void main(String[] args) {
+        //三个线程来执行五个任务 
+        ExecutorService exec = Executors.newFixedThreadPool(3);    
+        for(int i = 0; i &lt; 5; i++) { 
+            exec.execute(new LiftOff()); 
+        } 
+        exec.shutdown(); 
+    } 
+} </pre>
+<p>3.SingleThreadExecutor模式</p>
+<p>&nbsp; &nbsp; SingleThreadExecutor模式只会创建一个线程。它和FixedThreadPool比较类似，不过线程数是一个。如果多个任务被提交给SingleThreadExecutor的话，那么这些任务会被保存在一个队列中，并且会按照任务提交的顺序，一个先执行完成再执行另外一个线程。</p>
+<p>&nbsp; &nbsp; SingleThreadExecutor模式可以保证只有一个任务会被执行。这种特点可以被用来处理共享资源的问题而不需要考虑同步的问题。</p>
+<p>
+&nbsp; &nbsp; SingleThreadExecutor模式编写的客户端程序如下：&nbsp;
+</p>
+<p style="font-family: Simsun; font-size: medium;">&nbsp;</p>
+<div class="dp-highlighter" id=""><div class="bar"><div class="tools">Java代码 <embed wmode="transparent" src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=package%20net.jerryblog.concurrent%3B%20%0Aimport%20java.util.concurrent.ExecutorService%3B%20%0Aimport%20java.util.concurrent.Executors%3B%20%0Apublic%20class%20SingleThreadExecutor%20%7B%20%0A%20%20%20%20public%20static%20void%20main(String%5B%5D%20args)%20%7B%20%0A%20%20%20%20%20%20%20%20ExecutorService%20exec%20%3D%20Executors.newSingleThreadExecutor()%3B%20%0A%20%20%20%20%20%20%20%20for%20(int%20i%20%3D%200%3B%20i%20%3C%202%3B%20i%2B%2B)%20%7B%20%0A%20%20%20%20%20%20%20%20%20%20%20%20exec.execute(new%20LiftOff())%3B%20%0A%20%20%20%20%20%20%20%20%7D%20%0A%20%20%20%20%7D%20%0A%7D%20" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer">&nbsp;<a href="javascript:void()" title="收藏这段代码" onclick="code_favorites_do_favorite(this);return false;"><img class="star" src="./Java并发包中的几种ExecutorService - wawlian说 - ITeye技术网站_files/icon_star.png" alt="收藏代码"><img class="spinner" src="./Java并发包中的几种ExecutorService - wawlian说 - ITeye技术网站_files/spinner.gif" style="display:none"></a></div></div><ol start="1" class="dp-j"><li><span><span class="keyword">package</span><span>&nbsp;net.jerryblog.concurrent;&nbsp;&nbsp;&nbsp;</span></span></li><li><span><span class="keyword">import</span><span>&nbsp;java.util.concurrent.ExecutorService;&nbsp;&nbsp;&nbsp;</span></span></li><li><span><span class="keyword">import</span><span>&nbsp;java.util.concurrent.Executors;&nbsp;&nbsp;&nbsp;</span></span></li><li><span><span class="keyword">public</span><span>&nbsp;</span><span class="keyword">class</span><span>&nbsp;SingleThreadExecutor&nbsp;{&nbsp;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span><span>&nbsp;</span><span class="keyword">static</span><span>&nbsp;</span><span class="keyword">void</span><span>&nbsp;main(String[]&nbsp;args)&nbsp;{&nbsp;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ExecutorService&nbsp;exec&nbsp;=&nbsp;Executors.newSingleThreadExecutor();&nbsp;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span><span>&nbsp;(</span><span class="keyword">int</span><span>&nbsp;i&nbsp;=&nbsp;</span><span class="number">0</span><span>;&nbsp;i&nbsp;&lt;&nbsp;</span><span class="number">2</span><span>;&nbsp;i++)&nbsp;{&nbsp;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;exec.execute(<span class="keyword">new</span><span>&nbsp;LiftOff());&nbsp;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;</span></li><li><span>}&nbsp;&nbsp;&nbsp;</span></li></ol></div><pre name="code" class="java" codeable_id="1315256" codeable_type="Blog" source_url="http://wawlian.iteye.com/blog/1315256" pre_index="3" title="Java并发包中的几种ExecutorService" style="display: none;">package net.jerryblog.concurrent; 
+import java.util.concurrent.ExecutorService; 
+import java.util.concurrent.Executors; 
+public class SingleThreadExecutor { 
+    public static void main(String[] args) { 
+        ExecutorService exec = Executors.newSingleThreadExecutor(); 
+        for (int i = 0; i &lt; 2; i++) { 
+            exec.execute(new LiftOff()); 
+        } 
+    } 
+} </pre>
+<p style="font-family: Simsun; font-size: medium;">&nbsp; &nbsp; 这种模式下执行的结果如下：</p>
+<div class="dp-highlighter" id=""><div class="bar"><div class="tools">Java代码 <embed wmode="transparent" src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=%230(9)%20%230(8)%20%230(7)%20%230(6)%20%230(5)%20%230(4)%20%230(3)%20%230(2)%20%230(1)%20%230(LiftOff!)%0A%231(9)%20%231(8)%20%231(7)%20%231(6)%20%231(5)%20%231(4)%20%231(3)%20%231(2)%20%231(1)%20%231(LiftOff!)%20" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer">&nbsp;<a href="javascript:void()" title="收藏这段代码" onclick="code_favorites_do_favorite(this);return false;"><img class="star" src="./Java并发包中的几种ExecutorService - wawlian说 - ITeye技术网站_files/icon_star.png" alt="收藏代码"><img class="spinner" src="./Java并发包中的几种ExecutorService - wawlian说 - ITeye技术网站_files/spinner.gif" style="display:none"></a></div></div><ol start="1" class="dp-j"><li><span><span>#</span><span class="number">0</span><span>(</span><span class="number">9</span><span>)&nbsp;#</span><span class="number">0</span><span>(</span><span class="number">8</span><span>)&nbsp;#</span><span class="number">0</span><span>(</span><span class="number">7</span><span>)&nbsp;#</span><span class="number">0</span><span>(</span><span class="number">6</span><span>)&nbsp;#</span><span class="number">0</span><span>(</span><span class="number">5</span><span>)&nbsp;#</span><span class="number">0</span><span>(</span><span class="number">4</span><span>)&nbsp;#</span><span class="number">0</span><span>(</span><span class="number">3</span><span>)&nbsp;#</span><span class="number">0</span><span>(</span><span class="number">2</span><span>)&nbsp;#</span><span class="number">0</span><span>(</span><span class="number">1</span><span>)&nbsp;#</span><span class="number">0</span><span>(LiftOff!)&nbsp;&nbsp;</span></span></li><li><span>#<span class="number">1</span><span>(</span><span class="number">9</span><span>)&nbsp;#</span><span class="number">1</span><span>(</span><span class="number">8</span><span>)&nbsp;#</span><span class="number">1</span><span>(</span><span class="number">7</span><span>)&nbsp;#</span><span class="number">1</span><span>(</span><span class="number">6</span><span>)&nbsp;#</span><span class="number">1</span><span>(</span><span class="number">5</span><span>)&nbsp;#</span><span class="number">1</span><span>(</span><span class="number">4</span><span>)&nbsp;#</span><span class="number">1</span><span>(</span><span class="number">3</span><span>)&nbsp;#</span><span class="number">1</span><span>(</span><span class="number">2</span><span>)&nbsp;#</span><span class="number">1</span><span>(</span><span class="number">1</span><span>)&nbsp;#</span><span class="number">1</span><span>(LiftOff!)&nbsp;&nbsp;&nbsp;</span></span></li></ol></div><pre name="code" class="java" codeable_id="1315256" codeable_type="Blog" source_url="http://wawlian.iteye.com/blog/1315256" pre_index="4" title="Java并发包中的几种ExecutorService" style="display: none;">#0(9) #0(8) #0(7) #0(6) #0(5) #0(4) #0(3) #0(2) #0(1) #0(LiftOff!)
+#1(9) #1(8) #1(7) #1(6) #1(5) #1(4) #1(3) #1(2) #1(1) #1(LiftOff!) </pre>
+<p style="font-family: Simsun; font-size: medium;">&nbsp; &nbsp; 第一个任务执行完了之后才开始执行第二个任务。<span style="font-size: 12px; font-family: Verdana,Arial,Helvetica,sans-serif;">&nbsp;</span>
+&nbsp;</p>
+<p style="font-family: Simsun; font-size: medium;">&nbsp;</p>
+<p style="font-family: Simsun; font-size: medium;">&nbsp;</p>
+<p style="font-family: Simsun; font-size: medium;">&nbsp;</p>
+<p style="font-family: Simsun; font-size: medium;">&nbsp;</p>
+<p style="font-family: Simsun; font-size: medium;">&nbsp;</p>
+  </div>
+
+  
+
+  
+  
+  <iframe src="./Java并发包中的几种ExecutorService - wawlian说 - ITeye技术网站_files/187.htm" scrolling="no" width="680" height="90" frameborder="0"></iframe>
+  
+  <div id="bottoms" class="clearfix">
+    <div id="digg_bottom" class="clearfix"><div class="digged"><strong>7</strong> <br>顶</div><div class="digged"><strong>1</strong> <br>踩</div></div>
+    <div id="share_weibo">分享到：
+      <a data-type="sina" href="javascript:;" title="分享到新浪微博"><img src="./Java并发包中的几种ExecutorService - wawlian说 - ITeye技术网站_files/sina.jpg"></a>
+      <a data-type="qq" href="javascript:;" title="分享到腾讯微博"><img src="./Java并发包中的几种ExecutorService - wawlian说 - ITeye技术网站_files/tec.jpg"></a>
+    </div>
+  </div>
+
+  <div class="blog_nav">
+    <div class="pre_next">
+      <a href="http://wawlian.iteye.com/blog/1317225" class="next" title="C语言删除字符串中的指定字符，字符串连接">C语言删除字符串中的指定字符，字符串连接</a>
+      |
+      <a href="http://wawlian.iteye.com/blog/1315133" class="pre" title="C语言将字符串转换成对应的数字(十进制、十六进制) ">C语言将字符串转换成对应的数字(十进制、 ...</a>
+    </div>
+  </div>
+  <div class="blog_bottom">
+    <ul>
+      <li>2011-12-18 13:28</li>
+      <li>浏览 20710</li>
+      <li><a href="http://wawlian.iteye.com/blog/1315256#comments">评论(2)</a></li>
+      
+      
+      <li>分类:<a href="http://www.iteye.com/blogs/category/language">编程语言</a></li>      
+      <li class="last"><a href="http://www.iteye.com/wiki/blog/1315256" target="_blank" class="more">相关推荐</a></li>
+    </ul>
+  </div>
+
+  <div class="blog_comment">
+    <h5>评论</h5>
+    <a id="comments" name="comments"></a>
+    <div id="bc2360349">
+  <div class="comment_title">
+    2 楼
+    <a href="http://happyzjj.iteye.com/" target="_blank" title="happyzjj">happyzjj</a>
+    2014-10-11&nbsp;&nbsp;
+    
+    
+  </div>
+  <div class="comment_content">楼主讲的很详细，不过关于CachedThreadPool我试的也不能重用已结束的线程</div>
+</div>
+
+<div id="bc2338916">
+  <div class="comment_title">
+    1 楼
+    <a href="http://niedj.iteye.com/" target="_blank" title="niedj">niedj</a>
+    2014-01-27&nbsp;&nbsp;
+    
+    
+  </div>
+  <div class="comment_content">请问，关于CachedThreadPool的方式，楼主是否自己测试过？我测试的结果是没有发现能重用已有的线程，不知道楼主是怎么测试的。</div>
+</div>
+
+
+    
+    
+  </div>
+
+  <div class="blog_comment">
+    <h5>发表评论</h5>
+            <p style="text-align:center; margin-top:30px;margin-bottom:0px;"><a href="http://wawlian.iteye.com/login" style="background-color:white;"> <img src="./Java并发包中的几种ExecutorService - wawlian说 - ITeye技术网站_files/login_icon.png" style="vertical-align:middle; margin-right: 10px;"></a><a href="http://wawlian.iteye.com/login">  您还没有登录,请您登录后再发表评论 </a></p>
+      </div>
+</div>
+
+
+<script type="text/javascript">
+  dp.SyntaxHighlighter.HighlightAll('code', true, true);
+
+  $$('#main .blog_content pre[name=code]').each(function(pre, index){ // blog content
+    var post_id = 1315256;
+    var location = window.location;
+    source_url = location.protocol + "//" + location.host + location.pathname + location.search;
+    pre.writeAttribute('codeable_id', post_id);
+    pre.writeAttribute('codeable_type', "Blog");
+    pre.writeAttribute('source_url', source_url);
+    pre.writeAttribute('pre_index', index);
+    pre.writeAttribute('title', 'Java并发包中的几种ExecutorService');
+  });
+
+  fix_image_size($$('div.blog_content img'), 700);
+
+  function processComment() {
+    $$('#main .blog_comment > div').each(function(comment){// comment
+      var post_id = comment.id.substr(2);
+      $$("#"+comment.id+" pre[name=code]").each(function(pre, index){
+        var location = window.location;
+        source_url = location.protocol + "//" + location.host + location.pathname + location.search;
+        source_url += "#" + comment.id;
+        pre.writeAttribute('codeable_id', post_id);
+        pre.writeAttribute('codeable_type', "BlogComment");
+        pre.writeAttribute('source_url', source_url);
+        pre.writeAttribute('pre_index', index);
+        pre.writeAttribute('title', 'Java并发包中的几种ExecutorService');
+      });
+    });
+  }
+
+  function quote_comment(id) {
+    new Ajax.Request('/editor/quote', {
+      parameters: {'id':id, 'type':'BlogComment'},
+      onSuccess:function(response){editor.bbcode_editor.textarea.insertAfterSelection(response.responseText);
+        Element.scrollTo(editor.bbcode_editor.textarea.element);}
+    });
+  }
+
+  code_favorites_init();
+  processComment();
+  new WeiboShare({share_buttons: $('share_weibo'), img_scope: $('blog_content')});
+</script>
+
+
+
+
+        </div>
+
+        <div id="local">
+          <div class="local_top"></div>
+          <div id="blog_owner">
+  <div id="blog_owner_logo"><a href="http://wawlian.iteye.com/"><img alt="wawlian的博客" class="logo" src="./Java并发包中的几种ExecutorService - wawlian说 - ITeye技术网站_files/edf954db-3b24-3d14-82a1-ebdaa9d3c037.jpg" title="wawlian的博客: wawlian说" width=""></a></div>
+  <div id="blog_owner_name">wawlian</div>
+</div>
+
+          <div id="blog_actions">
+            <ul>
+              <li>浏览: 134008 次</li>
+              <li>性别: <img alt="Icon_minigender_1" src="./Java并发包中的几种ExecutorService - wawlian说 - ITeye技术网站_files/icon_minigender_1.gif" title="男"></li>
+              <li>来自: 北京</li>
+              <li><img src="./Java并发包中的几种ExecutorService - wawlian说 - ITeye技术网站_files/offline.gif"></li>
+              
+            </ul>
+          </div>
+          <div id="user_visits" class="clearfix">
+            <h5>最近访客 <span style="font-weight:normal;font-size:12px;padding-left:30px;"><a href="http://wawlian.iteye.com/blog/user_visits">更多访客&gt;&gt;</a></span></h5>
+            
+              <div class="user_visit">
+                <div class="logo"><a href="http://pjwqq.iteye.com/" target="_blank"><img alt="pjwqq的博客" class="logo" src="./Java并发包中的几种ExecutorService - wawlian说 - ITeye技术网站_files/user-logo-thumb.gif" title="pjwqq的博客: 星际怪物" width="48px"></a></div>
+                <div class="left"><a href="http://pjwqq.iteye.com/" target="_blank" title="pjwqq">pjwqq</a></div>
+              </div>
+            
+              <div class="user_visit">
+                <div class="logo"><a href="http://waisam.iteye.com/" target="_blank"><img alt="waisam的博客" class="logo" src="./Java并发包中的几种ExecutorService - wawlian说 - ITeye技术网站_files/2909a43e-1bfb-3628-9545-842428795c1e-thumb.jpg" title="waisam的博客: Sam Club" width="48px"></a></div>
+                <div class="left"><a href="http://waisam.iteye.com/" target="_blank" title="waisam">waisam</a></div>
+              </div>
+            
+              <div class="user_visit">
+                <div class="logo"><a href="http://learsun.iteye.com/" target="_blank"><img alt="learsun的博客" class="logo" src="./Java并发包中的几种ExecutorService - wawlian说 - ITeye技术网站_files/user-logo-thumb.gif" title="learsun的博客: " width="48px"></a></div>
+                <div class="left"><a href="http://learsun.iteye.com/" target="_blank" title="learsun">learsun</a></div>
+              </div>
+            
+              <div class="user_visit">
+                <div class="logo"><a href="http://windlrh.iteye.com/" target="_blank"><img alt="windlrh的博客" class="logo" src="./Java并发包中的几种ExecutorService - wawlian说 - ITeye技术网站_files/user-logo-thumb.gif" title="windlrh的博客: " width="48px"></a></div>
+                <div class="left"><a href="http://windlrh.iteye.com/" target="_blank" title="windlrh">windlrh</a></div>
+              </div>
+            
+          </div>
+
+          
+
+                      <div id="blog_menu">
+              <h5>文章分类</h5>
+              <ul>
+                <li><a href="http://wawlian.iteye.com/">全部博客 (112)</a></li>
+                
+                  <li><a href="http://wawlian.iteye.com/category/147128">Ajax (3)</a></li>
+                
+                  <li><a href="http://wawlian.iteye.com/category/147429">Oracle (10)</a></li>
+                
+                  <li><a href="http://wawlian.iteye.com/category/148665">云计算 (0)</a></li>
+                
+                  <li><a href="http://wawlian.iteye.com/category/149371">Java (10)</a></li>
+                
+                  <li><a href="http://wawlian.iteye.com/category/149891">jquery (3)</a></li>
+                
+                  <li><a href="http://wawlian.iteye.com/category/160905">杂 (8)</a></li>
+                
+                  <li><a href="http://wawlian.iteye.com/category/160906">算法导论 (1)</a></li>
+                
+                  <li><a href="http://wawlian.iteye.com/category/160907">Flex (3)</a></li>
+                
+                  <li><a href="http://wawlian.iteye.com/category/160908">JDBC (1)</a></li>
+                
+                  <li><a href="http://wawlian.iteye.com/category/160909">GIS概念 (0)</a></li>
+                
+                  <li><a href="http://wawlian.iteye.com/category/160912">CSS (1)</a></li>
+                
+                  <li><a href="http://wawlian.iteye.com/category/160913">CVS Eclipse (1)</a></li>
+                
+                  <li><a href="http://wawlian.iteye.com/category/160915">Hibernate (1)</a></li>
+                
+                  <li><a href="http://wawlian.iteye.com/category/160916">Struts2 (5)</a></li>
+                
+                  <li><a href="http://wawlian.iteye.com/category/160917">Servlet JSP (2)</a></li>
+                
+                  <li><a href="http://wawlian.iteye.com/category/164595">数据结构与问题求解 (1)</a></li>
+                
+                  <li><a href="http://wawlian.iteye.com/category/178047">CentOS (3)</a></li>
+                
+                  <li><a href="http://wawlian.iteye.com/category/179740">C语言名题百则 (4)</a></li>
+                
+                  <li><a href="http://wawlian.iteye.com/category/182195">设计模式 (1)</a></li>
+                
+                  <li><a href="http://wawlian.iteye.com/category/183625">Ubuntu (4)</a></li>
+                
+                  <li><a href="http://wawlian.iteye.com/category/183726">JavaScript (15)</a></li>
+                
+                  <li><a href="http://wawlian.iteye.com/category/184422">C语言 (12)</a></li>
+                
+                  <li><a href="http://wawlian.iteye.com/category/188214">数据结构 (8)</a></li>
+                
+                  <li><a href="http://wawlian.iteye.com/category/188808">DOM (4)</a></li>
+                
+                  <li><a href="http://wawlian.iteye.com/category/191901">UML (2)</a></li>
+                
+                  <li><a href="http://wawlian.iteye.com/category/192738">C语言，C++ (3)</a></li>
+                
+                  <li><a href="http://wawlian.iteye.com/category/193042">MongoDB (6)</a></li>
+                
+                  <li><a href="http://wawlian.iteye.com/category/199071">操作系统原理 (6)</a></li>
+                
+                  <li><a href="http://wawlian.iteye.com/category/199072">计算机网络 (0)</a></li>
+                
+                  <li><a href="http://wawlian.iteye.com/category/200839">node.js (1)</a></li>
+                
+                  <li><a href="http://wawlian.iteye.com/category/201311">FreeBSD (1)</a></li>
+                
+                  <li><a href="http://wawlian.iteye.com/category/208836">MySQL (1)</a></li>
+                
+                  <li><a href="http://wawlian.iteye.com/category/210537">通知帖 (0)</a></li>
+                
+                  <li><a href="http://wawlian.iteye.com/category/217230">版本控制 (2)</a></li>
+                
+                  <li><a href="http://wawlian.iteye.com/category/222574">Linux (1)</a></li>
+                
+                  <li><a href="http://wawlian.iteye.com/category/224106">Vim (1)</a></li>
+                
+                  <li><a href="http://wawlian.iteye.com/category/228155">形式语言与自动机 (0)</a></li>
+                
+                  <li><a href="http://wawlian.iteye.com/category/234213">搜索引擎 (2)</a></li>
+                
+                  <li><a href="http://wawlian.iteye.com/category/237301">Haskell (4)</a></li>
+                
+              </ul>
+            </div>
+            <div id="month_blogs">
+              <h5>社区版块</h5>
+              <ul>
+                <li><a href="http://wawlian.iteye.com/blog/news">我的资讯</a> (0)</li>
+                <li>
+                  <a href="http://wawlian.iteye.com/blog/post">我的论坛</a> (3)
+                </li>
+                <li><a href="http://wawlian.iteye.com/blog/answered_problems">我的问答</a> (0)</li>
+              </ul>
+            </div>
+            <div id="month_blogs">
+              <h5>存档分类</h5>
+              <ul>
+                
+                  <li><a href="http://wawlian.iteye.com/blog/monthblog/2012-08">2012-08</a> (4)</li>
+                
+                  <li><a href="http://wawlian.iteye.com/blog/monthblog/2012-07">2012-07</a> (2)</li>
+                
+                  <li><a href="http://wawlian.iteye.com/blog/monthblog/2012-06">2012-06</a> (1)</li>
+                
+                <li><a href="http://wawlian.iteye.com/blog/monthblog_more">更多存档...</a></li>
+              </ul>
+            </div>
+            
+            
+
+            <div id="guest_books">
+              <h5>最新评论</h5>
+              <ul>
+                
+                <li>
+                  <a href="http://201212112436.iteye.com/" target="_blank" title="Lyleluo">Lyleluo</a>： 
+                  深圳java群 397083120 求职，学习全包，外加小美女 ...<br>
+                  <a href="http://wawlian.iteye.com/blog/975029#bc2371006">Java数组初始化</a>
+                </li>
+                
+                <li>
+                  <a href="http://happyzjj.iteye.com/" target="_blank" title="happyzjj">happyzjj</a>： 
+                  楼主讲的很详细，不过关于CachedThreadPool我试的 ...<br>
+                  <a href="http://wawlian.iteye.com/blog/1315256#bc2360349">Java并发包中的几种ExecutorService</a>
+                </li>
+                
+                <li>
+                  <a href="http://niedj.iteye.com/" target="_blank" title="niedj">niedj</a>： 
+                  请问，关于CachedThreadPool的方式，楼主是否自己 ...<br>
+                  <a href="http://wawlian.iteye.com/blog/1315256#bc2338916">Java并发包中的几种ExecutorService</a>
+                </li>
+                
+                <li>
+                  <a href="http://garyzhang2681.iteye.com/" target="_blank" title="garyzhang2681">garyzhang2681</a>： 
+                  2.实现Runnable接口有试过t1.start(); t1 ...<br>
+                  <a href="http://wawlian.iteye.com/blog/1207513#bc2263410">Java多线程笔记1——多线程两种实现方式</a>
+                </li>
+                
+                <li>
+                  <a href="http://wawlian.iteye.com/" target="_blank" title="wawlian">wawlian</a>： 
+                  情已逝 写道嗯，这个跟进程通信没什么关系吧。另外，屏障（Bar ...<br>
+                  <a href="http://wawlian.iteye.com/blog/1351386#bc2240221">《现代操作系统》读书笔记之——进程间通信3</a>
+                </li>
+                
+              </ul>
+            </div>
+
+            <div class="local_bottom"></div>
+          
+        </div>
+      </div>
+
+      <div id="footer" class="clearfix">
+        <div id="copyright">
+          <hr>
+          声明：ITeye文章版权属于作者，受法律保护。没有作者书面许可不得转载。若作者同意转载，必须以超链接形式标明文章原始出处和作者。<br>
+          © 2003-2015 ITeye.com.   All rights reserved.  [ 京ICP证110151号  京公网安备110105010620 ]
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript">
+  document.write("<img src='http://stat.iteye.com/?url="+ encodeURIComponent(document.location.href) + "&referrer=" + encodeURIComponent(document.referrer) + "&user_id=' width='0' height='0' />");
+</script><img src="./Java并发包中的几种ExecutorService - wawlian说 - ITeye技术网站_files/saved_resource" width="0" height="0">
+
+<script src="./Java并发包中的几种ExecutorService - wawlian说 - ITeye技术网站_files/tracking.js" type="text/javascript"></script>
+
+    
+    
+  
+
+
+
+<div id="window-resizer-tooltip"><a href="http://wawlian.iteye.com/blog/1315256#" title="Edit settings"></a><span class="tooltipTitle">Window size: </span><span class="tooltipWidth" id="winWidth"></span> x <span class="tooltipHeight" id="winHeight"></span><br><span class="tooltipTitle">Viewport size: </span><span class="tooltipWidth" id="vpWidth"></span> x <span class="tooltipHeight" id="vpHeight"></span></div></body><style type="text/css" id="5564161000"></style></html>
